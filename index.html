@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La gente que habla sola - Invitación Digital</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Fuente Inter para mejor legibilidad */
+        :root {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Clase para evitar scroll en el body cuando un modal está abierto */
+        .modal-open {
+            overflow: hidden;
+        }
+    </style>
+    <script>
+        // Configuración y variables globales
+        const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyonuNONVfbmiwAUI0_koTsWABOSJ7iIFZp1dnLYDSKEPlmOJeA09h3BDlF0WhW7paE/exec";
+        // ENLACE DE LA GUÍA ACTUALIZADO
+        const GUIDE_URL = "https://drive.google.com/file/d/1bA9skoHlhkO6PRszE2gcZDvCB-uox0El/view?usp=sharing";
+        const MEET_URL = "https://meet.google.com/rsj-mbap-jpi";
+
+        // Estado central de la aplicación (similar a los useState de React)
+        let state = {
+            openCover: false,
+            openGuide: false,
+            openRSVP: false,
+            rsvpName: "",
+            rsvpEmail: "",
+            rsvpSent: false,
+            sending: false,
+            joinModalOpen: false,
+            rsvpServerResponse: null,
+            lastError: null,
+            messageModal: null, // { title, message, type }
+            // FECHA ACTUALIZADA: 9 de noviembre de 2025
+            eventDate: new Date("2025-11-09T11:00:00-05:00"),
+            now: new Date(),
+        };
+
+        // Función para actualizar el estado y re-renderizar
+        function updateState(newState) {
+            state = { ...state, ...newState };
+            render();
+            // Control de scroll del body
+            const open = state.openGuide || state.openRSVP || state.joinModalOpen || state.messageModal;
+            document.body.classList.toggle('modal-open', open);
+        }
+
+        // --- Lógica del Reloj y Cuenta Regresiva ---
+        function calculateCountdown() {
+            const timeDiff = state.eventDate - state.now;
+            // canJoin: 5 minutos antes del inicio y hasta 2 horas después
+            const canJoin = timeDiff <= 5 * 60 * 1000 && timeDiff > -2 * 60 * 60 * 1000;
+
+            // Calculamos el total de horas (incluyendo los días)
+            const hours = Math.max(0, Math.floor(timeDiff / (1000 * 60 * 60)));
+            // Minutos y segundos se calculan del remanente de las horas totales
+            const minutes = Math.max(0, Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60)));
+            const seconds = Math.max(0, Math.floor((timeDiff % (1000 * 60)) / 1000));
+
+            // Formato HHh MMm SSs (sin días)
+            const countdownText = timeDiff > 0
+                ? `${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`
+                : timeDiff > -2 * 60 * 60 * 1000
+                    ? "¡EN VIVO!"
+                    : "Finalizado";
+            
+            return { canJoin, countdownText };
+        }
+
+        function tick() {
+            updateState({ now: new Date() });
+            const countdownEl = document.getElementById('countdown');
+            if (countdownEl) {
+                countdownEl.textContent = calculateCountdown().countdownText;
+            }
+        }
+
+        // --- Funciones de Utilidad ---
+        function isValidEmail(email) {
+            return typeof email === "string" && email.includes("@") && email.includes(".") && email.length > 5;
+        }
+
+        function closeAllModals() {
+            updateState({ 
+                openGuide: false, 
+                openRSVP: false, 
+                joinModalOpen: false, 
+                messageModal: null 
+            });
+        }
+
+        // --- Manejo del Join (Unirse virtualmente) ---
+        function handleJoinClick(e) {
+            // No hacemos e.preventDefault() aquí para que la acción por defecto del botón (si la hubiera) no interfiera,
+            // pero la navegación se controla explícitamente.
+            const { canJoin } = calculateCountdown();
+            if (!canJoin) {
+                // Muestra el modal de aviso si no es el momento
+                updateState({ joinModalOpen: true });
+            } else {
+                // Abre el enlace si es el momento
+                window.open(MEET_URL, "_blank", "noopener,noreferrer");
+            }
+        }
+
+        // --- Manejo del RSVP (Inscripción) ---
+        async function submitRsvp(e) {
+            e.preventDefault();
+            updateState({ lastError: null, rsvpServerResponse: null });
+
+            const name = state.rsvpName.trim();
+            const email = state.rsvpEmail.trim();
+
+            if (!name) {
+                updateState({ messageModal: { title: "Falta Nombre", message: "Por favor ingresa tu nombre completo.", type: "error" } });
+                return;
+            }
+            if (!isValidEmail(email)) {
+                updateState({ messageModal: { title: "Correo Inválido", message: "Por favor ingresa un correo electrónico válido.", type: "error" } });
+                return;
+            }
+
+            updateState({ sending: true });
+
+            const payloadObj = {
+                name: name,
+                email: email,
+                timestamp: new Date().toISOString(),
+                source: "InvitacionWeb-LaGenteQueHablaSola",
+            };
+
+            try {
+                if (SHEET_ENDPOINT && SHEET_ENDPOINT.startsWith('http')) {
+                    const params = new URLSearchParams();
+                    Object.keys(payloadObj).forEach((k) => params.append(k, payloadObj[k]));
+
+                    const res = await fetch(SHEET_ENDPOINT, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: params.toString(),
+                    });
+
+                    const text = await res.text();
+                    let json = null;
+                    try { json = JSON.parse(text); } catch (err) { json = null; }
+
+                    if (!res.ok) {
+                        const errMsg = `Error ${res.status} - ${text}`;
+                        updateState({ rsvpServerResponse: { ok: false, status: res.status, body: text }, lastError: errMsg });
+                        throw new Error(errMsg);
+                    }
+
+                    updateState({
+                        rsvpServerResponse: { ok: true, status: res.status, body: json || text },
+                        rsvpSent: true,
+                        rsvpName: "",
+                        rsvpEmail: "",
+                        messageModal: { title: "¡Inscripción Recibida!", message: "Tu asistencia ha sido confirmada. ¡Gracias!", type: "success" }
+                    });
+                    setTimeout(() => updateState({ openRSVP: false }), 2500);
+
+                } else {
+                    console.warn('SHEET_ENDPOINT no configurado — simulando envío:', payloadObj);
+                    updateState({
+                        rsvpServerResponse: { ok: true, simulated: true, body: payloadObj },
+                        rsvpSent: true,
+                        rsvpName: "",
+                        rsvpEmail: "",
+                        messageModal: { title: "¡Simulación Exitosa!", message: "El endpoint no está configurado. Simulación de envío exitosa.", type: "success" }
+                    });
+                    setTimeout(() => updateState({ openRSVP: false }), 2500);
+                }
+            } catch (err) {
+                console.error('Error enviando RSVP:', err);
+                const errorMsg = err.message || String(err);
+                updateState({ lastError: errorMsg });
+
+                try {
+                    const pending = JSON.parse(localStorage.getItem('revelados_rsvp_pending') || '[]');
+                    pending.push(Object.assign({ attemptedAt: new Date().toISOString(), error: errorMsg }, payloadObj));
+                    localStorage.setItem('revelados_rsvp_pending', JSON.stringify(pending));
+                } catch (e) {
+                    console.warn('No se pudo guardar en localStorage:', e);
+                }
+
+                updateState({
+                    messageModal: {
+                        title: "Error de Inscripción",
+                        message: "No se pudo enviar la inscripción. Los datos se guardaron localmente para que puedas reintentarlo manualmente.",
+                        type: "error"
+                    }
+                });
+            } finally {
+                updateState({ sending: false });
+            }
+        }
+
+        // Estas funciones se mantienen aunque no se usen en el UI, por si el usuario quisiera restaurarlas
+        async function retryPending() {
+             // Lógica de retry (oculta del UI)
+        }
+
+        function viewPending() {
+            // Lógica de ver pendientes (oculta del UI)
+        }
+
+        // --- Funciones de Renderizado (HTML Templates) ---
+
+        function renderMessageModal() {
+            if (!state.messageModal) return '';
+
+            const { title, message, type } = state.messageModal;
+            const bgColor = type === "error" ? "bg-rose-500" : type === "success" ? "bg-emerald-500" : "bg-blue-500";
+            const icon = type === "error" ? "🛑" : type === "success" ? "✅" : "ℹ️";
+
+            return `
+                <div class="fixed inset-0 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true">
+                    <div class="absolute inset-0 bg-black/70" onclick="updateState({ messageModal: null })"></div>
+                    <div class="relative max-w-sm w-full rounded-xl p-5 shadow-2xl z-20 transform transition-all duration-300 ${bgColor}">
+                        <div class="flex items-start gap-3">
+                            <span class="text-2xl">${icon}</span>
+                            <div>
+                                <h4 class="text-lg font-bold text-white">${title}</h4>
+                                <p class="mt-1 text-sm text-white/90">${message}</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex justify-end">
+                            <button onclick="updateState({ messageModal: null })" class="px-3 py-1.5 rounded-xl bg-white text-slate-900 font-semibold text-sm hover:opacity-90">
+                                Aceptar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderJoinModal() {
+            if (!state.joinModalOpen) return '';
+
+            return `
+                <div class="fixed inset-0 z-60 flex items-center justify-center p-4">
+                    <div class="absolute inset-0 bg-black/70" onclick="updateState({ joinModalOpen: false })"></div>
+                    <div class="relative bg-gradient-to-br from-slate-50 to-yellow-50 rounded-2xl p-6 shadow-2xl max-w-md w-full transform transition-all duration-400 z-10">
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-yellow-400/10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-yellow-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-extrabold text-slate-900">¡Aún no es la hora!</h4>
+                                <p class="mt-1 text-sm text-slate-700">
+                                    La sala virtual se activará **5 minutos antes** de las 11:00 a.m. (Hora de Colombia). 
+                                    ¡Sé paciente y revisa la cuenta regresiva!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex justify-end">
+                            <button onclick="updateState({ joinModalOpen: false })" class="px-4 py-2 rounded-2xl bg-blue-900 text-white font-semibold hover:opacity-90">Entendido</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderGuideModal() {
+            if (!state.openGuide) return '';
+
+            return `
+                <div class="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true">
+                    <div class="absolute inset-0 bg-black/40" onclick="updateState({ openGuide: false })"></div>
+                    <div class="relative w-full max-w-lg bg-white rounded-2xl p-6 shadow-2xl z-10">
+                        <h3 class="text-2xl font-bold text-gray-900">Guía La gente que habla sola</h3>
+                        <p class="text-base text-gray-700 mb-6">
+                            Haz clic en el botón de abajo para acceder al documento completo de la guía del evento, con todas las actividades, lecturas y preguntas de reflexión.
+                        </p>
+                        
+                        <div class="flex flex-col items-stretch gap-4">
+                            <a 
+                                href="${GUIDE_URL}" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                class="w-full px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-700 text-white text-lg font-bold text-center shadow-lg hover:from-indigo-700 hover:to-blue-800 transition transform hover:scale-[1.01]"
+                                onclick="updateState({ openGuide: false })"
+                            >
+                                🔗 Abrir Documento de la Guía Completa
+                            </a>
+                        </div>
+
+                        <div class="mt-6 flex items-center justify-end">
+                            <button onclick="updateState({ openGuide: false })" class="px-4 py-2 rounded-full border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition">
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRSVPModal() {
+            if (!state.openRSVP) return '';
+
+            const formContent = `
+                <form id="rsvpForm" onsubmit="submitRsvp(event)" class="relative w-full max-w-sm bg-white rounded-2xl p-6 shadow-2xl z-10 text-slate-900">
+                    <h3 class="text-xl font-bold">Inscripción — La gente que habla sola</h3>
+                    <p class="text-sm text-gray-500 mt-1">Déjanos tus datos para confirmar asistencia y enviarte la guía.</p>
+                    <div class="mt-4 grid grid-cols-1 gap-3">
+                        <label class="text-sm font-medium text-slate-700">
+                            Nombre completo
+                            <input 
+                                required 
+                                type="text"
+                                id="rsvpNameInput" 
+                                value="${state.rsvpName}" 
+                                oninput="state.rsvpName = this.value" 
+                                class="w-full mt-1 p-3 border border-slate-300 rounded-lg text-slate-900 focus:ring-blue-500 focus:border-blue-500" 
+                                placeholder="Tu Nombre" 
+                            />
+                        </label>
+                        <label class="text-sm font-medium text-slate-700">
+                            Correo electrónico
+                            <input 
+                                required 
+                                type="email" 
+                                id="rsvpEmailInput"
+                                value="${state.rsvpEmail}" 
+                                oninput="state.rsvpEmail = this.value" 
+                                class="w-full mt-1 p-3 border border-slate-300 rounded-lg text-slate-900 focus:ring-blue-500 focus:border-blue-500" 
+                                placeholder="correo@ejemplo.com" 
+                            />
+                        </label>
+
+                        <div class="flex items-center gap-3 mt-2">
+                            <button type="submit" ${state.sending ? 'disabled' : ''} class="px-5 py-2 rounded-full bg-blue-900 text-white font-semibold flex items-center gap-2 shadow-md hover:bg-blue-800 transition disabled:opacity-50">
+                                ${state.sending ? `
+                                    <svg class="w-4 h-4 animate-spin text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" stroke-opacity=".2" />
+                                        <path d="M22 12a10 10 0 0 0-10-10" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                                    </svg>
+                                ` : ''}
+                                <span>${state.sending ? "Enviando..." : "Enviar Inscripción"}</span>
+                            </button>
+                            <button type="button" onclick="updateState({ openRSVP: false })" class="px-4 py-2 rounded-full border border-slate-300 bg-white text-slate-700 font-semibold hover:bg-slate-50 transition">
+                                Cancelar
+                            </button>
+                        </div>
+                        
+                        ${state.rsvpServerResponse && !state.rsvpSent ? `
+                            <pre class="mt-3 p-3 text-xs rounded-lg overflow-auto ${state.rsvpServerResponse.ok ? 'bg-emerald-50 text-emerald-800' : 'bg-rose-50 text-rose-800'} border">
+                                Respuesta del Servidor:<br/>
+                                ${JSON.stringify(state.rsvpServerResponse, null, 2)}
+                            </pre>
+                        ` : ''}
+                        
+                        ${state.lastError && !state.rsvpSent ? `
+                            <div class="mt-3 text-sm text-rose-700 p-2 bg-rose-50 rounded-lg border border-rose-300">
+                                <span class="font-bold">Error de Red:</span> ${state.lastError}
+                            </div>
+                        ` : ''}
+                        
+                    </div>
+                </form>
+            `;
+
+            return `
+                <div class="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true">
+                    <div class="absolute inset-0 bg-black/40" onclick="updateState({ openRSVP: false })"></div>
+                    ${formContent}
+                </div>
+            `;
+        }
+        
+        // --- Función Principal de Renderizado ---
+        function render() {
+            const app = document.getElementById('app');
+            if (!app) return;
+
+            // 1. PRESENCIA DE FOCO: Preservar el elemento activo y la posición del cursor
+            let focusedId = null;
+            let focusedCursor = 0;
+            const currentActiveElement = document.activeElement;
+
+            // Solo guardamos si está enfocado dentro de la aplicación y si es un campo del formulario RSVP
+            if (state.openRSVP && currentActiveElement && currentActiveElement.closest('#rsvpForm')) {
+                focusedId = currentActiveElement.id;
+                focusedCursor = currentActiveElement.selectionStart;
+            }
+
+            const { openCover, openGuide, openRSVP, joinModalOpen } = state;
+            const { canJoin, countdownText } = calculateCountdown();
+            
+            let mainContent = '';
+            
+            if (!openCover) {
+                // COVER (closed)
+                mainContent = `
+                    <section class="w-full max-w-md rounded-3xl shadow-2xl overflow-hidden text-center p-6 transform transition-all duration-700 border border-slate-800 bg-gradient-to-br from-slate-800/60 to-blue-900/40">
+                        <div class="flex flex-col items-center gap-4">
+                            <img
+                                src="https://i.imgur.com/dDYOrEm.png"
+                                alt="Logo La Casa de Juanita"
+                                class="w-24 h-24 object-contain rounded-full shadow-lg ring-2 ring-yellow-400/50"
+                                onerror="this.onerror=null;this.src='https://placehold.co/96x96/6366f1/ffffff?text=Logo'"
+                            />
+                            <h1 class="text-3xl font-extrabold tracking-tight" style="background: linear-gradient(90deg,#a5f3fc,#f3e8c6); -webkit-background-clip: text; color: transparent;">La gente que habla sola</h1>
+                            <p class="text-sm text-slate-200/80">El arte de entender nuestra voz interior</p>
+
+                            <button
+                                onclick="updateState({ openCover: true })"
+                                class="mt-4 px-6 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-blue-600 text-slate-900 font-semibold shadow-2xl hover:scale-105 transform transition duration-300 active:scale-95"
+                                type="button"
+                                aria-label="Abrir invitación"
+                            >
+                                Abrir invitación
+                            </button>
+                        </div>
+                    </section>
+                `;
+            } else {
+                // INVITATION (opened)
+                mainContent = `
+                    <section class="w-full max-w-4xl transition-all duration-700 ease-out">
+                        <article class="relative mx-auto rounded-3xl shadow-2xl overflow-hidden border border-slate-800 bg-gradient-to-br from-slate-900/80 to-blue-950/60">
+                            <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at top right, rgba(255,215,120,0.05) 0%, transparent 50%)"></div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2">
+                                <div class="relative p-8 flex flex-col justify-center gap-4 md:border-r border-slate-800 bg-transparent">
+                                    <div class="flex justify-center">
+                                        <video
+                                            src="https://i.imgur.com/pBYxlv6.mp4"
+                                            alt="Video principal del tema La gente que habla sola"
+                                            class="w-full max-w-xs h-auto object-cover rounded-2xl shadow-[0_30px_60px_rgba(2,6,23,0.8)] transform transition-all duration-700 hover:scale-[1.02] mx-auto"
+                                            style="border: 1px solid rgba(255,215,120,0.08); box-shadow: 0 20px 40px rgba(2,6,23,0.75);"
+                                            autoplay loop muted playsinline
+                                            poster="https://placehold.co/320x320/0f172a/ffffff?text=Video"
+                                        ></video>
+                                    </div>
+                                    
+                                    <h2 class="text-4xl font-extrabold font-serif text-yellow-200 tracking-tight text-center mt-4">La gente que habla sola</h2>
+                                    <p class="text-sm text-slate-200/70 text-center">El arte de entender nuestra voz interior</p>
+                                    <p class="text-xs text-slate-300/60 italic text-center">"Cuando hablas solo, sabes que alguien te está escuchando"</p>
+                                </div>
+
+                                <div class="p-8 md:p-10 flex flex-col justify-between bg-transparent">
+                                    <div>
+                                        <div class="text-sm text-slate-300">📅 <span class="text-yellow-200 font-medium">Domingo</span></div>
+                                        <h3 class="text-2xl font-bold mt-1 text-white">9 de noviembre</h3>
+                                        <p class="mt-1 text-sm text-slate-300">11:00 a.m. (Colombia) • 6:00 p.m. (España)</p>
+
+                                        <div class="mt-4 p-3 bg-white/5 rounded-xl border border-slate-700">
+                                            <p class="text-xs font-semibold text-yellow-300 mb-1">CUENTA REGRESIVA</p>
+                                            <p id="countdown" class="text-2xl font-mono font-bold text-white">${countdownText}</p>
+                                        </div>
+                                        
+                                        <div class="mt-6 text-sm text-slate-300 leading-relaxed">
+                                            <p>
+                                                Te invitamos a un encuentro familiar en <span class="font-semibold text-yellow-200">La Casa de Juanita</span>, dentro del ciclo
+                                                <span class="font-semibold text-yellow-200"> Fe con Propósito</span>. Un tiempo para reflexionar, orar y sentir la presencia que transforma.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                        <button
+                                            onclick="handleJoinClick(event)"
+                                            class="w-full px-4 py-3 rounded-xl font-semibold shadow-lg transform transition duration-300 active:scale-95 ${canJoin ? "bg-gradient-to-r from-yellow-400 to-blue-600 text-slate-900 hover:scale-105" : "bg-white/5 text-slate-300 border border-slate-700 hover:scale-[1.01]"}"
+                                            aria-label="Unirse virtualmente"
+                                        >
+                                            ▶ Unirse virtualmente
+                                        </button>
+
+                                        <button
+                                            onclick="updateState({ openGuide: true })"
+                                            class="w-full px-4 py-3 rounded-xl border border-slate-700 bg-white/5 text-slate-100 font-semibold hover:scale-105 transition duration-300 active:scale-95"
+                                            aria-haspopup="dialog"
+                                        >
+                                            📘 Guía
+                                        </button>
+
+                                        <button
+                                            onclick="updateState({ openRSVP: true })"
+                                            class="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-700 to-blue-700 text-white font-semibold shadow-lg hover:scale-105 transition duration-300 active:scale-95"
+                                            aria-label="Inscribirme"
+                                        >
+                                            ✉️ Inscribirme
+                                        </button>
+                                    </div>
+                                    <div class="mt-6 text-xs text-slate-400 text-center">© La Casa de Juanita · Fe con Propósito</div>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+                `;
+            }
+
+            // Renderizar el contenido principal y los modales
+            app.innerHTML = `
+                <main class="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-indigo-900 flex items-center justify-center p-6 text-white font-sans">
+                    ${mainContent}
+                </main>
+                ${renderJoinModal()}
+                ${renderGuideModal()}
+                ${renderRSVPModal()}
+                ${renderMessageModal()}
+            `;
+
+            // 2. PRESENCIA DE FOCO: Restaurar el foco después del re-render
+            if (focusedId) {
+                const newActiveElement = document.getElementById(focusedId);
+                if (newActiveElement) {
+                    newActiveElement.focus();
+                    if (newActiveElement.setSelectionRange) {
+                        newActiveElement.setSelectionRange(focusedCursor, focusedCursor);
+                    }
+                }
+            }
+        }
+
+        // --- Inicialización y Event Listeners ---
+        window.onload = function() {
+            // Se mantiene el intervalo en 5000ms para reducir la carga de re-renderizado
+            setInterval(tick, 5000); 
+            tick(); // Primera llamada inmediata
+
+            // Evento para cerrar modales con ESC
+            window.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") {
+                    closeAllModals();
+                    if(state.openCover) updateState({ openCover: false });
+                }
+            });
+
+            // Renderizado inicial
+            render();
+        };
+    </script>
+</head>
+<body class="bg-slate-900">
+    <!-- Contenedor principal donde JavaScript inyecta el contenido -->
+    <div id="app"></div>
+</body>
+</html>	
