@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Radar del Cielo - Invitación Digital</title>
     <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
     <style>
         /* Fuentes Personalizadas */
         :root {
             font-family: 'Inter', sans-serif;
         }
-        h1, h2, h3, .font-title {
+
+        h1,
+        h2,
+        h3,
+        .font-title {
             font-family: 'Montserrat', sans-serif;
         }
-        
+
         /* Clase para evitar scroll en el body cuando un modal está abierto */
         .modal-open {
             overflow: hidden;
@@ -23,9 +30,17 @@
 
         /* Animaciones suaves */
         @keyframes radar-pulse {
-            0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); }
-            70% { box-shadow: 0 0 0 20px rgba(56, 189, 248, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 20px rgba(56, 189, 248, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
+            }
         }
 
         .radar-effect {
@@ -42,7 +57,7 @@
         // Configuración y variables globales
         const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyonuNONVfbmiwAUI0_koTsWABOSJ7iIFZp1dnLYDSKEPlmOJeA09h3BDlF0WhW7paE/exec";
         // ENLACE DE LA GUÍA (Pendiente actualizar si es necesario)
-        const GUIDE_URL = "https://drive.google.com/file/d/1bA9skoHlhkO6PRszE2gcZDvCB-uox0El/view?usp=sharing";
+        const GUIDE_URL = "https://innovacion-con-clase.github.io/el-radar-del-cielo/";
         const MEET_URL = "https://meet.google.com/rsj-mbap-jpi";
 
         // Estado central
@@ -57,7 +72,7 @@
             joinModalOpen: false,
             rsvpServerResponse: null,
             lastError: null,
-            messageModal: null, 
+            messageModal: null,
             // FECHA ACTUALIZADA: 28 de diciembre de 2025, 11:00 AM
             eventDate: new Date("2025-12-28T11:00:00-05:00"),
             now: new Date(),
@@ -90,7 +105,7 @@
             } else {
                 countdownText = "Finalizado";
             }
-            
+
             return { canJoin, countdownText };
         }
 
@@ -108,11 +123,11 @@
         }
 
         function closeAllModals() {
-            updateState({ 
-                openGuide: false, 
-                openRSVP: false, 
-                joinModalOpen: false, 
-                messageModal: null 
+            updateState({
+                openGuide: false,
+                openRSVP: false,
+                joinModalOpen: false,
+                messageModal: null
             });
         }
 
@@ -193,7 +208,7 @@
                 }
             } catch (err) {
                 console.error('Error:', err);
-                updateState({ 
+                updateState({
                     lastError: err.message,
                     messageModal: { title: "Error", message: "No se pudo enviar la inscripción. Intenta de nuevo.", type: "error" }
                 });
@@ -208,7 +223,7 @@
             if (!state.messageModal) return '';
             const { title, message, type } = state.messageModal;
             const bgColor = type === "error" ? "bg-rose-600" : "bg-emerald-600";
-            
+
             return `
                 <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
                     <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="updateState({ messageModal: null })"></div>
@@ -224,7 +239,7 @@
                 </div>
             `;
         }
-        
+
         function renderJoinModal() {
             if (!state.joinModalOpen) return '';
             return `
@@ -298,7 +313,7 @@
                 </div>
             `;
         }
-        
+
         // --- Main Render ---
         function render() {
             const app = document.getElementById('app');
@@ -310,9 +325,9 @@
 
             const { openCover } = state;
             const { canJoin, countdownText } = calculateCountdown();
-            
+
             let mainContent = '';
-            
+
             if (!openCover) {
                 // COVER
                 mainContent = `
@@ -422,17 +437,19 @@
             }
         }
 
-        window.onload = function() {
+        window.onload = function () {
             setInterval(tick, 1000);
             tick();
             window.addEventListener("keydown", (e) => {
-                if (e.key === "Escape") { closeAllModals(); if(state.openCover) updateState({openCover:false}); }
+                if (e.key === "Escape") { closeAllModals(); if (state.openCover) updateState({ openCover: false }); }
             });
             render();
         };
     </script>
 </head>
+
 <body class="bg-[#050B14] text-slate-200 antialiased">
     <div id="app"></div>
 </body>
+
 </html>
