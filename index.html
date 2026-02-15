@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto de Emergencia #23 - Invitación</title>
+    <title>ADN de Rescatista - Invitación</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
@@ -98,9 +98,9 @@
     <script>
         // Configuración
         const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyonuNONVfbmiwAUI0_koTsWABOSJ7iIFZp1dnLYDSKEPlmOJeA09h3BDlF0WhW7paN/exec";
-        const GUIDE_URL = "https://innovacion-con-clase.github.io/contacto-de-emergencia/";
+        const GUIDE_URL = "https://innovacion-con-clase.github.io/ADN-de-Rescatista/";
         const MEET_URL = "https://meet.google.com/rsj-mbap-jpi"; // Assuming same meet link unless changed
-        const EVENT_DATE = new Date("2026-02-08T11:00:00-05:00");
+        const EVENT_DATE = new Date("2026-02-15T11:00:00-05:00");
 
         let state = {
             view: 'cover', // cover, card
@@ -178,7 +178,7 @@
                 formData.append('name', state.rsvpName);
                 formData.append('email', state.rsvpEmail);
                 formData.append('timestamp', new Date().toISOString());
-                formData.append('source', 'ContactoEmergenciaWeb');
+                formData.append('source', 'ADNRescatistaWeb');
 
                 // Send
                 await fetch(SHEET_ENDPOINT, {
@@ -229,11 +229,11 @@
                             Señal Entrante
                         </div>
                         <h1 class="text-5xl md:text-7xl font-bold font-mono-tech text-white tracking-tighter leading-tight">
-                            CONTACTO DE<br>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-200">EMERGENCIA #23</span>
+                            ADN DE<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-200">RESCATISTA</span>
                         </h1>
                         <p class="text-slate-400 text-lg md:text-xl max-w-lg mx-auto leading-relaxed">
-                            "Hoy estaremos donde Rami"
+                            "Forjando el Carácter del Pastor: El ADN que Transforma y Rescata"
                         </p>
                     </div>
 
@@ -243,7 +243,7 @@
                     </button>
                     
                     <div class="absolute bottom-8 text-xs font-mono-tech text-slate-600 uppercase tracking-widest">
-                        Frecuencia Segura /// 08.02.2026
+                        Frecuencia Segura /// 15.02.2026
                     </div>
                 </div>
             `;
@@ -259,7 +259,7 @@
                         <div class="lg:col-span-5 relative bg-slate-900/50 p-8 flex flex-col justify-between min-h-[400px] overflow-hidden group">
                             <!-- Background Image with Overlay -->
                             <div class="absolute inset-0 opacity-40 mix-blend-overlay">
-                                <img src="https://i.imgur.com/LGE2vU3.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" />
+                                <img src="https://i.imgur.com/kLMyyBR.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" />
                             </div>
                             <!-- Scanline -->
                             <div class="absolute inset-0 bg-gradient-to-b from-transparent via-orange-500/10 to-transparent h-[20%] animate-scan pointer-events-none"></div>
@@ -293,11 +293,11 @@
                                     <span class="text-orange-500 font-mono-tech font-bold text-xs uppercase tracking-[0.2em]">Prioridad Alta</span>
                                 </div>
                                 <h2 class="text-4xl font-bold text-white font-mono-tech mb-4 leading-none">
-                                    CONTACTO DE<br>EMERGENCIA
+                                    ADN DE<br>RESCATISTA
                                 </h2>
                                 <p class="text-slate-300 leading-relaxed border-l border-slate-700 pl-4 py-1">
-                                    Únete a la frecuencia #23. Un espacio para reconectar, recalibrar y recibir nuevas coordenadas. <br>
-                                    <span class="text-orange-400 block mt-2 font-medium">"Hoy estaremos donde Rami"</span>
+                                    Únete a esta transmisión especial. Un espacio para reconectar con el carácter del pastor y recibir nuevas coordenadas ministeriales. <br>
+                                    <span class="text-orange-400 block mt-2 font-medium">"El ADN que Transforma y Rescata"</span>
                                 </p>
                             </div>
 
@@ -305,7 +305,7 @@
                             <div class="grid grid-cols-2 gap-8 mb-10 border-t border-b border-slate-800 py-6">
                                 <div>
                                     <h4 class="text-slate-500 font-mono-tech text-xs uppercase tracking-wider mb-2">Fecha</h4>
-                                    <p class="text-white font-bold text-lg">08.02.2026</p>
+                                    <p class="text-white font-bold text-lg">15.02.2026</p>
                                     <p class="text-slate-400 text-sm">Domingo</p>
                                 </div>
                                 <div>
