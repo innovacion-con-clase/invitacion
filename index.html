@@ -4,91 +4,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADN de Rescatista - Invitación</title>
+    <title>Biografía del Humo - Invitación</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600&display=swap"
         rel="stylesheet">
     <style>
-        /* Modern Tech Font Stack */
         :root {
             font-family: 'Inter', sans-serif;
-            --color-signal: #f97316;
-            /* Orange 500 */
-            --color-active: #10b981;
-            /* Emerald 500 */
-            --color-slate-900: #0f172a;
+            --color-smoke: #cbd5e1;
+            --color-ethereal: #38bdf8;
+            --color-deep: #0f172a;
+        }
+
+        .font-ethereal {
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: -0.01em;
         }
 
         .font-mono-tech {
             font-family: 'Space Grotesk', sans-serif;
-            letter-spacing: -0.02em;
+            letter-spacing: 0.05em;
         }
 
-        /* Radar animations */
-        @keyframes radar-ping {
+        /* Ethereal animations */
+        @keyframes smoke-drift {
             0% {
-                transform: scale(0.8);
-                opacity: 0.8;
+                transform: translate(0, 0) scale(1);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: translate(20px, -20px) scale(1.1);
+                opacity: 0.5;
             }
 
             100% {
-                transform: scale(2.2);
+                transform: translate(-10px, -40px) scale(1.2);
                 opacity: 0;
             }
         }
 
-        @keyframes scan-line {
-            0% {
-                transform: translateY(-100%);
-            }
-
-            100% {
-                transform: translateY(100%);
-            }
-        }
-
-        @keyframes blink {
+        @keyframes float {
 
             0%,
             100% {
-                opacity: 1;
+                transform: translateY(0);
             }
 
             50% {
-                opacity: 0.4;
+                transform: translateY(-10px);
             }
         }
 
-        .animate-radar {
-            animation: radar-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        @keyframes glow-pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(56, 189, 248, 0.4);
+            }
         }
 
-        .animate-scan {
-            animation: scan-line 3s linear infinite;
+        .animate-smoke {
+            animation: smoke-drift 8s ease-out infinite;
         }
 
-        .animate-blink {
-            animation: blink 1.5s step-end infinite;
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
         }
 
-        /* Tech/Glass Panel */
-        .tech-panel {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2), 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        .animate-glow {
+            animation: glow-pulse 4s ease-in-out infinite;
         }
 
-        .tech-border-glow {
-            box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.2);
+        /* Glass / Fog Panel */
+        .fog-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        /* Grid Background Pattern */
-        .bg-grid-pattern {
-            background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        /* Background Pattern */
+        .bg-ethereal-pattern {
+            background-color: #020617;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(148, 163, 184, 0.05) 0px, transparent 50%);
+        }
+
+        .smoke-particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
         .modal-open {
@@ -98,17 +111,17 @@
     <script>
         // Configuración
         const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyonuNONVfbmiwAUI0_koTsWABOSJ7iIFZp1dnLYDSKEPlmOJeA09h3BDlF0WhW7paN/exec";
-        const GUIDE_URL = "https://innovacion-con-clase.github.io/ADN-de-Rescatista/";
-        const MEET_URL = "https://meet.google.com/rsj-mbap-jpi"; // Assuming same meet link unless changed
-        const EVENT_DATE = new Date("2026-02-15T11:00:00-05:00");
+        const GUIDE_URL = "https://innovacion-con-clase.github.io/la-ciencia-de-atrapar-el-viento/";
+        const MEET_URL = "https://meet.google.com/rsj-mbap-jpi";
+        const EVENT_DATE = new Date("2026-02-22T11:00:00-05:00");
 
         let state = {
-            view: 'cover', // cover, card
-            modal: null, // null, 'guide', 'rsvp', 'join'
+            view: 'cover',
+            modal: null,
             rsvpName: "",
             rsvpEmail: "",
             sending: false,
-            rsvpStatus: null, // null, 'success', 'error'
+            rsvpStatus: null,
             now: new Date(),
         };
 
@@ -118,7 +131,6 @@
             document.body.classList.toggle('modal-open', !!state.modal);
         }
 
-        // Timer Logic
         function getTimeRemaining() {
             const total = EVENT_DATE - state.now;
             const seconds = Math.floor((total / 1000) % 60);
@@ -134,35 +146,20 @@
 
         function tick() {
             state.now = new Date();
-            const { total, isLive } = getTimeRemaining();
-
-            // Only re-render if we cross into "Live" or every second for countdown text
-            // Optimization: updading text content directly if exists
             const el = document.getElementById('countdown-display');
             if (el) {
                 const t = getTimeRemaining();
-                if (t.isLive) el.innerText = "TRANSIMISIÓN EN VIVO";
-                else if (t.isEnded) el.innerText = "FINALIZADO";
+                if (t.isLive) el.innerText = "EN VIVO";
+                else if (t.isEnded) el.innerText = "EVENTO FINALIZADO";
                 else {
-                    let text = `T-`;
+                    let text = ``;
                     if (t.days > 0) text += `${t.days}d `;
-                    text += `${String(t.hours).padStart(2, '0')}h ${String(t.minutes).padStart(2, '0')}m ${String(t.seconds).padStart(2, '0')}s`;
+                    text += `${String(t.hours).padStart(2, '0')}:${String(t.minutes).padStart(2, '0')}:${String(t.seconds).padStart(2, '0')}`;
                     el.innerText = text;
-                }
-            }
-
-            // Check if we need to update "Join" button state
-            const joinBtn = document.getElementById('btn-join');
-            if (joinBtn) {
-                const canJoin = total <= 5 * 60 * 1000 && !isLive && !isEnded; // 5 mins before
-                if (isLive || canJoin) {
-                    joinBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                    joinBtn.classList.add('animate-pulse');
                 }
             }
         }
 
-        // Actions
         async function handleRSVP(e) {
             e.preventDefault();
             if (!state.rsvpName || !state.rsvpEmail.includes('@')) {
@@ -173,14 +170,12 @@
             updateState({ sending: true });
 
             try {
-                // Construct Payload
                 const formData = new URLSearchParams();
                 formData.append('name', state.rsvpName);
                 formData.append('email', state.rsvpEmail);
                 formData.append('timestamp', new Date().toISOString());
-                formData.append('source', 'ADNRescatistaWeb');
+                formData.append('source', 'BiografiaDelHumoWeb');
 
-                // Send
                 await fetch(SHEET_ENDPOINT, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -188,63 +183,67 @@
                 });
 
                 updateState({ sending: false, rsvpStatus: 'success', modal: null });
-                setTimeout(() => alert("¡Registro confirmado! Nos vemos en la señal."), 500);
+                setTimeout(() => alert("¡Confirmado! Te esperamos en la nube."), 500);
 
             } catch (err) {
                 console.error(err);
                 updateState({ sending: false, rsvpStatus: 'error' });
-                alert("Error de conexión. Inténtalo de nuevo.");
+                alert("Hubo un problema. Intenta nuevamente.");
             }
         }
 
         function handleJoin() {
             const { total } = getTimeRemaining();
-            // Allow join 15 mins before
             if (total > 15 * 60 * 1000) {
-                alert("La señal aún no está activa. Regresa 15 minutos antes.");
+                alert("La señal aún no está lista. Conéctate 15 minutos antes.");
                 return;
             }
             window.open(MEET_URL, '_blank');
         }
 
-        // Render Components
-
         function RenderCover() {
             return `
-                <div class="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-4 animate-fade-in">
-                    <!-- Signal Icon / Radar -->
-                    <div class="relative w-32 h-32 mb-8 group cursor-pointer" onclick="updateState({view: 'card'})">
-                        <div class="absolute inset-0 bg-orange-500/20 rounded-full animate-radar"></div>
-                        <div class="absolute inset-0 bg-orange-500/10 rounded-full animate-radar" style="animation-delay: 0.5s"></div>
-                        <div class="relative w-full h-full bg-slate-900 border border-orange-500/50 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(249,115,22,0.3)] group-hover:scale-105 transition-transform duration-300">
-                            <svg class="w-12 h-12 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                        </div>
+                <div class="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-4 animate-fade-in overflow-hidden">
+                    <!-- Smoke Particles Decoration -->
+                    <div class="absolute inset-0 pointer-events-none">
+                        <div class="smoke-particle animate-smoke" style="width: 300px; height: 300px; top: 20%; left: 10%; animation-delay: 0s"></div>
+                        <div class="smoke-particle animate-smoke" style="width: 200px; height: 200px; top: 50%; left: 70%; animation-delay: 2s"></div>
+                        <div class="smoke-particle animate-smoke" style="width: 400px; height: 400px; top: 10%; left: 40%; animation-delay: 4s"></div>
                     </div>
 
-                    <div class="space-y-2 mb-8">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-mono-tech tracking-wider uppercase">
-                            <span class="w-2 h-2 rounded-full bg-orange-500 animate-blink"></span>
-                            Señal Entrante
+                    <div class="relative mb-12 animate-float">
+                        <div class="w-24 h-24 rounded-full border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm shadow-2xl">
+                             <svg class="w-10 h-10 text-sky-400 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                            </svg>
                         </div>
-                        <h1 class="text-5xl md:text-7xl font-bold font-mono-tech text-white tracking-tighter leading-tight">
-                            ADN DE<br>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-200">RESCATISTA</span>
+                        <div class="absolute -inset-4 bg-sky-500/10 rounded-full blur-2xl animate-pulse"></div>
+                    </div>
+
+                    <div class="space-y-4 mb-12 relative z-20">
+                        <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-400 text-[10px] font-mono-tech tracking-[0.3em] uppercase">
+                            <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
+                            Inmersión Disponible
+                        </div>
+                        <h1 class="text-6xl md:text-8xl font-ethereal font-semibold text-white tracking-tight leading-none">
+                            BIOGRAFÍA<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500">DEL HUMO</span>
                         </h1>
-                        <p class="text-slate-400 text-lg md:text-xl max-w-lg mx-auto leading-relaxed">
-                            "Forjando el Carácter del Pastor: El ADN que Transforma y Rescata"
+                        <p class="text-slate-400 text-lg md:text-xl font-light tracking-wide max-w-xl mx-auto italic">
+                            "La Ciencia de Atrapar el Viento"
                         </p>
                     </div>
 
-                    <button onclick="updateState({view: 'card'})" class="group relative px-8 py-3 bg-white text-slate-900 font-bold font-mono-tech uppercase tracking-widest text-sm hover:bg-orange-500 hover:text-white transition-colors duration-300">
-                        <div class="absolute inset-0 border border-white/20 translate-x-1 translate-y-1 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform"></div>
-                        <span class="relative">Establecer Conexión</span>
+                    <button onclick="updateState({view: 'card'})" class="group relative px-10 py-4 bg-transparent text-white font-mono-tech uppercase tracking-[0.2em] text-xs overflow-hidden transition-all duration-500">
+                        <div class="absolute inset-0 border border-white/20 group-hover:bg-white/5 transition-all"></div>
+                        <div class="absolute bottom-0 left-0 w-full h-[1px] bg-sky-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
+                        <span class="relative">Explorar Relato</span>
                     </button>
                     
-                    <div class="absolute bottom-8 text-xs font-mono-tech text-slate-600 uppercase tracking-widest">
-                        Frecuencia Segura /// 15.02.2026
+                    <div class="absolute bottom-12 text-[10px] font-mono-tech text-slate-500 uppercase tracking-[0.4em]">
+                        La Voz del Viento /// 22.02.2026
                     </div>
+
                 </div>
             `;
         }
@@ -253,88 +252,86 @@
             const t = getTimeRemaining();
 
             return `
-                <div class="w-full max-w-6xl min-h-[600px] flex items-center justify-center p-4 md:p-8 animate-fade-in-up">
-                    <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-0 tech-panel rounded-2xl overflow-hidden relative">
-                        <!-- Left: Visual/Data -->
-                        <div class="lg:col-span-5 relative bg-slate-900/50 p-8 flex flex-col justify-between min-h-[400px] overflow-hidden group">
-                            <!-- Background Image with Overlay -->
-                            <div class="absolute inset-0 opacity-40 mix-blend-overlay">
-                                <img src="https://i.imgur.com/kLMyyBR.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" />
+                <div class="w-full max-w-6xl p-4 md:p-8 animate-fade-in-up flex items-center justify-center">
+                    <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-0 fog-panel rounded-3xl overflow-hidden relative border border-white/5">
+                        <!-- Left: Visual -->
+                        <div class="lg:col-span-5 relative bg-slate-950 p-0 flex flex-col justify-end min-h-[500px] overflow-hidden group">
+                            <div class="absolute inset-0 grayscale contrast-125 brightness-75 group-hover:grayscale-0 transition-all duration-1000">
+                                <img src="https://i.imgur.com/cSsndmN.jpeg" class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-[2000ms]" />
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-90"></div>
                             </div>
-                            <!-- Scanline -->
-                            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-orange-500/10 to-transparent h-[20%] animate-scan pointer-events-none"></div>
-
-                            <div class="relative z-10">
-                                <div class="inline-block border-l-2 border-orange-500 pl-3">
-                                    <h3 class="text-orange-500 font-mono-tech text-xs font-bold tracking-widest uppercase mb-1">Proyecto</h3>
-                                    <p class="text-white font-bold text-xl tracking-tight">RADAR DEL CIELO</p>
+                            
+                            <div class="relative z-10 p-10 space-y-6">
+                                <div class="space-y-1">
+                                    <h3 class="text-sky-400 font-mono-tech text-[10px] uppercase tracking-[0.3em]">Atmósfera</h3>
+                                    <p class="text-white font-ethereal text-3xl font-light tracking-tight">LA VOZ DEL VIENTO</p>
                                 </div>
-                            </div>
 
-                            <div class="relative z-10 mt-auto">
-                                <div class="p-4 bg-slate-950/80 border border-white/10 backdrop-blur-md">
-                                    <div class="flex justify-between items-end mb-2">
-                                        <span class="text-slate-400 text-xs font-mono-tech uppercase">Tiempo Restante</span>
-                                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                
+                                <div class="p-6 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <span class="text-slate-400 text-[10px] font-mono-tech uppercase tracking-widest">Cuenta Regresiva</span>
+                                        <div class="flex gap-1">
+                                            <div class="w-1 h-1 rounded-full bg-sky-400 animate-pulse"></div>
+                                            <div class="w-1 h-1 rounded-full bg-sky-400 animate-pulse" style="animation-delay: 0.2s"></div>
+                                        </div>
                                     </div>
-                                    <div id="countdown-display" class="text-3xl font-mono-tech font-bold text-white tracking-tight tabular-nums">
-                                        Calculando...
+                                    <div id="countdown-display" class="text-4xl font-mono-tech font-medium text-white tracking-widest tabular-nums">
+                                        --:--:--
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Right: Details -->
-                        <div class="lg:col-span-7 p-8 md:p-12 flex flex-col relative">
-                            <!-- Header -->
-                            <div class="mb-10">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <div class="h-[1px] w-8 bg-orange-500"></div>
-                                    <span class="text-orange-500 font-mono-tech font-bold text-xs uppercase tracking-[0.2em]">Prioridad Alta</span>
+                        <div class="lg:col-span-7 p-8 md:p-14 flex flex-col bg-slate-900/40 relative">
+                            <div class="mb-12">
+                                <div class="flex items-center gap-4 mb-8">
+                                    <div class="h-[1px] w-12 bg-sky-500/50"></div>
+                                    <span class="text-sky-400 font-mono-tech text-[10px] uppercase tracking-[0.4em]">Invitación Digital</span>
                                 </div>
-                                <h2 class="text-4xl font-bold text-white font-mono-tech mb-4 leading-none">
-                                    ADN DE<br>RESCATISTA
+                                <h2 class="text-5xl md:text-6xl font-ethereal font-semibold text-white mb-8 leading-[0.9] tracking-tighter">
+                                    BIOGRAFÍA<br><span class="opacity-50">DEL HUMO</span>
                                 </h2>
-                                <p class="text-slate-300 leading-relaxed border-l border-slate-700 pl-4 py-1">
-                                    Únete a esta transmisión especial. Un espacio para reconectar con el carácter del pastor y recibir nuevas coordenadas ministeriales. <br>
-                                    <span class="text-orange-400 block mt-2 font-medium">"El ADN que Transforma y Rescata"</span>
+                                <p class="text-slate-400 text-lg font-light leading-relaxed max-w-md">
+                                    Te invitamos a una experiencia de reflexión profunda. Descifraremos la ciencia detrás de lo intangible y capturaremos lo que el viento nos susurra.
                                 </p>
                             </div>
 
-                            <!-- Info Grid -->
-                            <div class="grid grid-cols-2 gap-8 mb-10 border-t border-b border-slate-800 py-6">
-                                <div>
-                                    <h4 class="text-slate-500 font-mono-tech text-xs uppercase tracking-wider mb-2">Fecha</h4>
-                                    <p class="text-white font-bold text-lg">15.02.2026</p>
-                                    <p class="text-slate-400 text-sm">Domingo</p>
+                            <div class="grid grid-cols-2 gap-12 mb-12 border-y border-white/5 py-10">
+                                <div class="space-y-2">
+                                    <h4 class="text-slate-500 font-mono-tech text-[10px] uppercase tracking-widest">Fecha</h4>
+                                    <p class="text-white font-ethereal text-2xl font-light">22 • 02 • 26</p>
+                                    <p class="text-sky-400/60 text-xs font-mono-tech">DOMINGO</p>
                                 </div>
-                                <div>
-                                    <h4 class="text-slate-500 font-mono-tech text-xs uppercase tracking-wider mb-2">Hora</h4>
-                                    <p class="text-white font-bold text-lg">11:00 AM</p>
-                                    <p class="text-slate-400 text-sm">Hora Local</p>
+                                <div class="space-y-2">
+                                    <h4 class="text-slate-500 font-mono-tech text-[10px] uppercase tracking-widest">Inicia</h4>
+                                    <p class="text-white font-ethereal text-2xl font-light">11:00 AM</p>
+                                    <p class="text-sky-400/60 text-xs font-mono-tech">GMT-5</p>
                                 </div>
                             </div>
 
-                            <!-- Actions -->
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-auto">
-                                <button onclick="handleJoin()" id="btn-join" class="py-4 bg-orange-600 hover:bg-orange-500 text-white font-bold font-mono-tech uppercase tracking-wider text-sm transition-colors flex items-center justify-center gap-2 opacity-80">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-                                    Ingresar
+                                <button onclick="handleJoin()" id="btn-join" class="group relative py-5 bg-white text-slate-900 font-mono-tech uppercase tracking-widest text-[10px] font-bold overflow-hidden transition-all hover:bg-sky-400 hover:text-white">
+                                    <span class="relative z-10 flex items-center justify-center gap-2">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                                        Conectar
+                                    </span>
                                 </button>
                                 <div class="flex gap-2">
-                                    <button onclick="updateState({modal:'rsvp'})" class="flex-1 py-4 border border-slate-700 hover:border-white text-slate-300 hover:text-white font-bold font-mono-tech uppercase tracking-wider text-sm transition-colors">
+                                    <button onclick="updateState({modal:'rsvp'})" class="flex-1 py-5 border border-white/10 hover:border-white/30 text-slate-400 hover:text-white font-mono-tech uppercase tracking-widest text-[10px] transition-all bg-white/5">
                                         RSVP
                                     </button>
-                                    <button onclick="window.open(GUIDE_URL, '_blank')" class="flex-1 py-4 border border-slate-700 hover:border-white text-slate-300 hover:text-white font-bold font-mono-tech uppercase tracking-wider text-sm transition-colors">
-                                        Guía
+                                    <button onclick="window.open(GUIDE_URL, '_blank')" class="flex-1 py-5 border border-white/10 hover:border-white/30 text-slate-400 hover:text-white font-mono-tech uppercase tracking-widest text-[10px] transition-all bg-white/5">
+                                        Info
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <button onclick="updateState({view:'cover'})" class="absolute top-4 right-4 text-slate-600 hover:text-white transition-colors">
-                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    <button onclick="updateState({view:'cover'})" class="absolute top-8 right-8 text-slate-600 hover:text-white transition-colors p-2">
+                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>
                 </div>
              `;
@@ -343,29 +340,30 @@
         function RenderModal() {
             if (!state.modal) return '';
 
-            // Only RSVP modal logic needed really, Guide is external link, Join is action
             if (state.modal === 'rsvp') {
                 return `
-                    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-                        <div class="w-full max-w-md bg-slate-900 border border-slate-700 p-8 shadow-2xl relative">
-                            <button onclick="updateState({modal:null})" class="absolute top-4 right-4 text-slate-500 hover:text-white">✕</button>
+                    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md animate-fade-in">
+                        <div class="w-full max-w-md fog-panel p-10 rounded-3xl relative border border-white/10">
+                            <button onclick="updateState({modal:null})" class="absolute top-6 right-6 text-slate-500 hover:text-white p-2">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" /></svg>
+                            </button>
                             
-                            <h3 class="text-2xl text-white font-mono-tech font-bold mb-6">Confirmar Asistencia</h3>
+                            <h3 class="text-3xl text-white font-ethereal font-light mb-8">Confirmar Presencia</h3>
                             
-                            <form onsubmit="handleRSVP(event)" class="space-y-6">
-                                <div>
-                                    <label class="block text-slate-400 text-xs font-mono-tech uppercase tracking-wider mb-2">Nombre Completo</label>
+                            <form onsubmit="handleRSVP(event)" class="space-y-8">
+                                <div class="space-y-2">
+                                    <label class="block text-slate-500 text-[10px] font-mono-tech uppercase tracking-[0.3em]">Identificación</label>
                                     <input required type="text" value="${state.rsvpName}" oninput="state.rsvpName = this.value" 
-                                        class="w-full bg-slate-800 border border-slate-700 p-3 text-white focus:border-orange-500 focus:outline-none transition-colors" placeholder="Tu nombre...">
+                                        class="w-full bg-white/5 border-b border-white/10 py-3 text-white focus:border-sky-400 focus:outline-none transition-all placeholder:text-slate-700" placeholder="Nombre completo">
                                 </div>
-                                <div>
-                                    <label class="block text-slate-400 text-xs font-mono-tech uppercase tracking-wider mb-2">Correo Electrónico</label>
+                                <div class="space-y-2">
+                                    <label class="block text-slate-500 text-[10px] font-mono-tech uppercase tracking-[0.3em]">Canal de Contacto</label>
                                     <input required type="email" value="${state.rsvpEmail}" oninput="state.rsvpEmail = this.value"
-                                        class="w-full bg-slate-800 border border-slate-700 p-3 text-white focus:border-orange-500 focus:outline-none transition-colors" placeholder="correo@ejemplo.com">
+                                        class="w-full bg-white/5 border-b border-white/10 py-3 text-white focus:border-sky-400 focus:outline-none transition-all placeholder:text-slate-700" placeholder="correo@ejemplo.com">
                                 </div>
                                 
-                                <button type="submit" disabled="${state.sending}" class="w-full py-3 bg-white text-slate-900 font-bold font-mono-tech uppercase tracking-widest hover:bg-orange-500 hover:text-white transition-colors disabled:opacity-50">
-                                    ${state.sending ? 'Enviando...' : 'Confirmar'}
+                                <button type="submit" ${state.sending ? 'disabled' : ''} class="w-full py-4 bg-sky-500 text-white font-mono-tech font-bold uppercase tracking-widest text-[10px] hover:bg-sky-400 transition-all disabled:opacity-30 rounded-lg">
+                                    ${state.sending ? 'Sincronizando...' : 'Confirmar Registro'}
                                 </button>
                             </form>
                         </div>
@@ -385,7 +383,6 @@
             app.innerHTML = content + RenderModal();
         }
 
-        // Init
         window.onload = () => {
             render();
             setInterval(tick, 1000);
@@ -396,14 +393,8 @@
 </head>
 
 <body
-    class="bg-slate-950 text-slate-200 antialiased min-h-screen relative overflow-x-hidden selection:bg-orange-500 selection:text-white">
-    <!-- Ambient Background -->
-    <div class="fixed inset-0 pointer-events-none bg-grid-pattern opacity-20"></div>
-    <div
-        class="fixed top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(15,23,42,0),rgba(15,23,42,1))] pointer-events-none">
-    </div>
-
-    <div id="app" class="relative z-10 w-full min-h-screen flex flex-col justify-center"></div>
+    class="bg-ethereal-pattern text-slate-200 antialiased min-h-screen relative overflow-x-hidden selection:bg-sky-500/30 selection:text-white">
+    <div id="app" class="relative z-10 w-full min-h-screen flex flex-col items-center justify-center"></div>
 </body>
 
 </html>
