@@ -12,8 +12,8 @@
     <style>
         :root {
             font-family: 'Inter', sans-serif;
-            --color-smoke: #cbd5e1;
-            --color-ethereal: #38bdf8;
+            --color-gold: #fbbf24;
+            --color-amber: #f59e0b;
             --color-deep: #0f172a;
         }
 
@@ -28,20 +28,17 @@
         }
 
         /* Ethereal animations */
-        @keyframes smoke-drift {
-            0% {
-                transform: translate(0, 0) scale(1);
-                opacity: 0.3;
+        @keyframes sun-glow {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: scale(1);
             }
 
             50% {
-                transform: translate(20px, -20px) scale(1.1);
-                opacity: 0.5;
-            }
-
-            100% {
-                transform: translate(-10px, -40px) scale(1.2);
-                opacity: 0;
+                opacity: 0.8;
+                transform: scale(1.05);
             }
         }
 
@@ -61,16 +58,16 @@
 
             0%,
             100% {
-                box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+                box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
             }
 
             50% {
-                box-shadow: 0 0 40px rgba(56, 189, 248, 0.4);
+                box-shadow: 0 0 40px rgba(251, 191, 36, 0.4);
             }
         }
 
-        .animate-smoke {
-            animation: smoke-drift 8s ease-out infinite;
+        .animate-sun {
+            animation: sun-glow 10s ease-in-out infinite;
         }
 
         .animate-float {
@@ -83,29 +80,26 @@
 
         /* Glass / Fog Panel */
         .fog-panel {
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.1);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
         /* Background Pattern */
         .bg-ethereal-pattern {
             background-color: #020617;
-            background-image:
-                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.05) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(148, 163, 184, 0.05) 0px, transparent 50%);
+            background-image: url('C:/Users/CirTed13/.gemini/antigravity/brain/864c318f-8489-433c-ac46-17db88dbcbbd/heavenly_sunlight_clouds_bg_1772379967570.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
-        .smoke-particle {
+        .light-ray {
             position: absolute;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
+            background: linear-gradient(to bottom, rgba(251, 191, 36, 0.2), transparent);
+            width: 2px;
             pointer-events: none;
-        }
-
-        .modal-open {
-            overflow: hidden;
         }
     </style>
     <script>
@@ -183,7 +177,7 @@
                 });
 
                 updateState({ sending: false, rsvpStatus: 'success', modal: null });
-                setTimeout(() => alert("¡Confirmado! Te esperamos en la nube."), 500);
+                setTimeout(() => alert("¡Confirmado! Te esperamos."), 500);
 
             } catch (err) {
                 console.error(err);
@@ -204,44 +198,42 @@
         function RenderCover() {
             return `
                 <div class="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-4 animate-fade-in overflow-hidden">
-                    <!-- Smoke Particles Decoration -->
-                    <div class="absolute inset-0 pointer-events-none">
-                        <div class="smoke-particle animate-smoke" style="width: 300px; height: 300px; top: 20%; left: 10%; animation-delay: 0s"></div>
-                        <div class="smoke-particle animate-smoke" style="width: 200px; height: 200px; top: 50%; left: 70%; animation-delay: 2s"></div>
-                        <div class="smoke-particle animate-smoke" style="width: 400px; height: 400px; top: 10%; left: 40%; animation-delay: 4s"></div>
-                    </div>
-
-                    <div class="relative mb-12 animate-float">
-                        <div class="w-24 h-24 rounded-full border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm shadow-2xl">
-                             <svg class="w-10 h-10 text-sky-400 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                    <div class="absolute inset-0 bg-black/40 z-0"></div>
+                    
+                    <div class="relative mb-12 animate-float z-10">
+                        <div class="w-24 h-24 rounded-full border border-amber-400/30 flex items-center justify-center bg-white/5 backdrop-blur-sm shadow-2xl">
+                             <svg class="w-10 h-10 text-amber-400 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
                             </svg>
                         </div>
-                        <div class="absolute -inset-4 bg-sky-500/10 rounded-full blur-2xl animate-pulse"></div>
+                        <div class="absolute -inset-4 bg-amber-500/10 rounded-full blur-2xl animate-pulse"></div>
                     </div>
 
-                    <div class="space-y-4 mb-12 relative z-20">
-                        <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-400 text-[10px] font-mono-tech tracking-[0.3em] uppercase">
-                            <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
-                            Inmersión Disponible
+                    <div class="space-y-4 mb-12 relative z-10">
+                        <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-amber-400/80 text-[10px] font-mono-tech tracking-[0.3em] uppercase">
+                            <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                            FE CON PROPÓSITO
                         </div>
-                        <h1 class="text-6xl md:text-8xl font-ethereal font-semibold text-white tracking-tight leading-none">
+                        <h1 class="text-6xl md:text-8xl font-ethereal font-semibold text-white tracking-tight leading-none uppercase">
                             NACER DE<br>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500">NUEVO</span>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-amber-500">NUEVO</span>
                         </h1>
-                        <p class="text-slate-400 text-lg md:text-xl font-light tracking-wide max-w-xl mx-auto italic">
-                            "El Inicio de tu Nueva Historia"
+                        <p class="text-amber-100/70 text-sm md:text-base font-mono-tech tracking-widest uppercase mb-2">
+                            JUAN 3
+                        </p>
+                        <p class="text-white/90 text-lg md:text-xl font-light tracking-wide max-w-2xl mx-auto italic leading-relaxed">
+                            "El Reino no se hereda por linaje ni se obtiene por mérito religioso"
                         </p>
                     </div>
 
-                    <button onclick="updateState({view: 'card'})" class="group relative px-10 py-4 bg-transparent text-white font-mono-tech uppercase tracking-[0.2em] text-xs overflow-hidden transition-all duration-500">
-                        <div class="absolute inset-0 border border-white/20 group-hover:bg-white/5 transition-all"></div>
-                        <div class="absolute bottom-0 left-0 w-full h-[1px] bg-sky-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
-                        <span class="relative">Explorar Relato</span>
+                    <button onclick="updateState({view: 'card'})" class="group relative z-10 px-10 py-4 bg-transparent text-white font-mono-tech uppercase tracking-[0.2em] text-xs overflow-hidden transition-all duration-500">
+                        <div class="absolute inset-0 border border-amber-400/30 group-hover:bg-amber-400/10 transition-all"></div>
+                        <div class="absolute bottom-0 left-0 w-full h-[1px] bg-amber-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
+                        <span class="relative">Ingresar al encuentro</span>
                     </button>
                     
-                    <div class="absolute bottom-12 text-[10px] font-mono-tech text-slate-500 uppercase tracking-[0.4em]">
-                        Mauricio Bedoya /// 01.03.2026
+                    <div class="absolute bottom-12 z-10 text-[10px] font-mono-tech text-amber-200/50 uppercase tracking-[0.4em]">
+                        Mauricio Bedoya /// Casa de Juanita
                     </div>
 
                 </div>
@@ -257,23 +249,22 @@
                         <!-- Left: Visual -->
                         <div class="lg:col-span-5 relative bg-slate-950 p-0 flex flex-col justify-end min-h-[500px] overflow-hidden group">
                             <div class="absolute inset-0 contrast-110 brightness-100 transition-all duration-1000">
-                                <img src="http://static1.squarespace.com/static/5148b380e4b0106646129f8e/5148b7cae4b08bb38b2081ed/5c3cedc740ec9ab9b90125bc/1547497936548/nacer-de-nuevo+1755.jpg" class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-[2000ms]" />
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-90"></div>
+                                <img src="C:/Users/CirTed13/.gemini/antigravity/brain/864c318f-8489-433c-ac46-17db88dbcbbd/heavenly_sunlight_clouds_bg_1772379967570.png" class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-[2000ms]" />
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-90"></div>
                             </div>
                             
                             <div class="relative z-10 p-10 space-y-6">
                                 <div class="space-y-1">
-                                    <h3 class="text-sky-400 font-mono-tech text-[10px] uppercase tracking-[0.3em]">Invitado Especial</h3>
+                                    <h3 class="text-amber-400 font-mono-tech text-[10px] uppercase tracking-[0.3em]">Invitado</h3>
                                     <p class="text-white font-ethereal text-3xl font-light tracking-tight">MAURICIO BEDOYA</p>
                                 </div>
 
-                                
                                 <div class="p-6 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl">
                                     <div class="flex justify-between items-center mb-4">
-                                        <span class="text-slate-400 text-[10px] font-mono-tech uppercase tracking-widest">Cuenta Regresiva</span>
+                                        <span class="text-amber-200/50 text-[10px] font-mono-tech uppercase tracking-widest">Inicia en</span>
                                         <div class="flex gap-1">
-                                            <div class="w-1 h-1 rounded-full bg-sky-400 animate-pulse"></div>
-                                            <div class="w-1 h-1 rounded-full bg-sky-400 animate-pulse" style="animation-delay: 0.2s"></div>
+                                            <div class="w-1 h-1 rounded-full bg-amber-400 animate-pulse"></div>
+                                            <div class="w-1 h-1 rounded-full bg-amber-400 animate-pulse" style="animation-delay: 0.2s"></div>
                                         </div>
                                     </div>
                                     <div id="countdown-display" class="text-4xl font-mono-tech font-medium text-white tracking-widest tabular-nums">
@@ -287,14 +278,15 @@
                         <div class="lg:col-span-7 p-8 md:p-14 flex flex-col bg-slate-900/40 relative">
                             <div class="mb-12">
                                 <div class="flex items-center gap-4 mb-8">
-                                    <div class="h-[1px] w-12 bg-sky-500/50"></div>
-                                    <span class="text-sky-400 font-mono-tech text-[10px] uppercase tracking-[0.4em]">Invitación Digital</span>
+                                    <div class="h-[1px] w-12 bg-amber-500/50"></div>
+                                    <span class="text-amber-400 font-mono-tech text-[10px] uppercase tracking-[0.4em]">Invitación Especial</span>
                                 </div>
-                                <h2 class="text-5xl md:text-6xl font-ethereal font-semibold text-white mb-8 leading-[0.9] tracking-tighter">
-                                    NACER DE<br><span class="opacity-50">NUEVO</span>
+                                <h2 class="text-5xl md:text-6xl font-ethereal font-semibold text-white mb-4 leading-[0.9] tracking-tighter uppercase">
+                                    NACER DE<br><span class="text-amber-500">NUEVO</span>
                                 </h2>
-                                <p class="text-slate-400 text-lg font-light leading-relaxed max-w-md">
-                                    Te invitamos a un encuentro de transformación. Es momento de dejar atrás lo viejo y abrazar el propósito de una vida renovada.
+                                <p class="text-amber-100/60 font-mono-tech text-xs tracking-[0.2em] mb-8">JUAN 3</p>
+                                <p class="text-slate-300 text-lg font-light leading-relaxed max-w-md italic">
+                                    "El Reino no se hereda por linaje ni se obtiene por mérito religioso"
                                 </p>
                             </div>
 
@@ -302,35 +294,35 @@
                                 <div class="space-y-2">
                                     <h4 class="text-slate-500 font-mono-tech text-[10px] uppercase tracking-widest">Fecha</h4>
                                     <p class="text-white font-ethereal text-2xl font-light">01 • 03 • 26</p>
-                                    <p class="text-sky-400/60 text-xs font-mono-tech">DOMINGO</p>
+                                    <p class="text-amber-400/60 text-xs font-mono-tech uppercase tracking-tighter">Casa de Juanita</p>
                                 </div>
                                 <div class="space-y-2">
-                                    <h4 class="text-slate-500 font-mono-tech text-[10px] uppercase tracking-widest">Inicia</h4>
+                                    <h4 class="text-slate-500 font-mono-tech text-[10px] uppercase tracking-widest">Hora</h4>
                                     <p class="text-white font-ethereal text-2xl font-light">11:00 AM</p>
-                                    <p class="text-sky-400/60 text-xs font-mono-tech">GMT-5</p>
+                                    <p class="text-amber-400/60 text-xs font-mono-tech">DOMINGO</p>
                                 </div>
                             </div>
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-auto">
-                                <button onclick="handleJoin()" id="btn-join" class="group relative py-5 bg-white text-slate-900 font-mono-tech uppercase tracking-widest text-[10px] font-bold overflow-hidden transition-all hover:bg-sky-400 hover:text-white">
+                                <button onclick="handleJoin()" id="btn-join" class="group relative py-5 bg-amber-500 text-slate-900 font-mono-tech uppercase tracking-widest text-[10px] font-bold overflow-hidden transition-all hover:bg-amber-400 hover:text-white">
                                     <span class="relative z-10 flex items-center justify-center gap-2">
-                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-                                        Conectar
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                        Cómo llegar
                                     </span>
                                 </button>
                                 <div class="flex gap-2">
-                                    <button onclick="updateState({modal:'rsvp'})" class="flex-1 py-5 border border-white/10 hover:border-white/30 text-slate-400 hover:text-white font-mono-tech uppercase tracking-widest text-[10px] transition-all bg-white/5">
+                                    <button onclick="updateState({modal:'rsvp'})" class="flex-1 py-5 border border-amber-400/20 hover:border-amber-400/50 text-amber-200/70 hover:text-white font-mono-tech uppercase tracking-widest text-[10px] transition-all bg-white/5">
                                         RSVP
                                     </button>
                                     <button class="flex-1 py-5 border border-white/10 text-slate-500 font-mono-tech uppercase tracking-widest text-[10px] transition-all bg-white/5 cursor-default">
-                                        Info
+                                        INFO
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <button onclick="updateState({view:'cover'})" class="absolute top-8 right-8 text-slate-600 hover:text-white transition-colors p-2">
+                    <button onclick="updateState({view:'cover'})" class="absolute top-8 right-8 text-slate-600 hover:text-amber-400 transition-colors p-2">
                          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>
                 </div>
@@ -343,7 +335,7 @@
             if (state.modal === 'rsvp') {
                 return `
                     <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md animate-fade-in">
-                        <div class="w-full max-w-md fog-panel p-10 rounded-3xl relative border border-white/10">
+                        <div class="w-full max-w-md fog-panel p-10 rounded-3xl relative border border-amber-400/20">
                             <button onclick="updateState({modal:null})" class="absolute top-6 right-6 text-slate-500 hover:text-white p-2">
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" /></svg>
                             </button>
@@ -352,18 +344,18 @@
                             
                             <form onsubmit="handleRSVP(event)" class="space-y-8">
                                 <div class="space-y-2">
-                                    <label class="block text-slate-500 text-[10px] font-mono-tech uppercase tracking-[0.3em]">Identificación</label>
+                                    <label class="block text-amber-400/50 text-[10px] font-mono-tech uppercase tracking-[0.3em]">Nombre</label>
                                     <input required type="text" value="${state.rsvpName}" oninput="state.rsvpName = this.value" 
-                                        class="w-full bg-white/5 border-b border-white/10 py-3 text-white focus:border-sky-400 focus:outline-none transition-all placeholder:text-slate-700" placeholder="Nombre completo">
+                                        class="w-full bg-white/5 border-b border-amber-400/20 py-3 text-white focus:border-amber-400 focus:outline-none transition-all placeholder:text-slate-700" placeholder="Nombre completo">
                                 </div>
                                 <div class="space-y-2">
-                                    <label class="block text-slate-500 text-[10px] font-mono-tech uppercase tracking-[0.3em]">Canal de Contacto</label>
+                                    <label class="block text-amber-400/50 text-[10px] font-mono-tech uppercase tracking-[0.3em]">Correo</label>
                                     <input required type="email" value="${state.rsvpEmail}" oninput="state.rsvpEmail = this.value"
-                                        class="w-full bg-white/5 border-b border-white/10 py-3 text-white focus:border-sky-400 focus:outline-none transition-all placeholder:text-slate-700" placeholder="correo@ejemplo.com">
+                                        class="w-full bg-white/5 border-b border-amber-400/20 py-3 text-white focus:border-amber-400 focus:outline-none transition-all placeholder:text-slate-700" placeholder="correo@ejemplo.com">
                                 </div>
                                 
-                                <button type="submit" ${state.sending ? 'disabled' : ''} class="w-full py-4 bg-sky-500 text-white font-mono-tech font-bold uppercase tracking-widest text-[10px] hover:bg-sky-400 transition-all disabled:opacity-30 rounded-lg">
-                                    ${state.sending ? 'Sincronizando...' : 'Confirmar Registro'}
+                                <button type="submit" ${state.sending ? 'disabled' : ''} class="w-full py-4 bg-amber-500 text-slate-900 font-mono-tech font-bold uppercase tracking-widest text-[10px] hover:bg-amber-400 transition-all disabled:opacity-30 rounded-lg">
+                                    ${state.sending ? 'Registrando...' : 'Confirmar Registro'}
                                 </button>
                             </form>
                         </div>
