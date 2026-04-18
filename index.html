@@ -4,17 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cuando el Cielo trabaja en silencio (Parte II) - Invitación</title>
+    <title>Tenemos que Hablar - Invitación</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap"
         rel="stylesheet">
     <style>
         :root {
             font-family: 'Inter', sans-serif;
-            --color-accent: #818cf8; /* indigo-400 */
-            --color-accent-dark: #4f46e5; /* indigo-600 */
+            --color-accent: #4d908e; /* teal-ish */
+            --color-accent-dark: #275950;
             --color-deep: #0f172a;
+            --color-paper: #f8f5f2;
+        }
+
+        .font-serif-elegant {
+            font-family: 'Cormorant Garamond', serif;
         }
 
         .font-ethereal {
@@ -92,7 +97,7 @@
         /* Background Pattern */
         .bg-ethereal-pattern {
             background-color: #020617;
-            background-image: url('https://i.imgur.com/eIr4py1.jpeg');
+            background-image: url('https://i.imgur.com/mYCcCXG.jpeg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -108,9 +113,9 @@
     <script>
         // Configuración
         const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyonuNONVfbmiwAUI0_koTsWABOSJ7iIFZp1dnLYDSKEPlmOJeA09h3BDlF0WhW7paN/exec";
-        const GUIDE_URL = "https://innovacion-con-clase.github.io/el-silencio-de-Dios/";
+        const GUIDE_URL = "https://innovacion-con-clase.github.io/tenemos-que-hablar/";
         const MEET_URL = "https://meet.google.com/jbz-swdo-rpz";
-        const EVENT_DATE = new Date("2026-04-04T16:00:00-05:00");
+        const EVENT_DATE = new Date("2026-04-19T11:00:00-05:00");
 
         let state = {
             view: 'cover',
@@ -201,44 +206,38 @@
         function RenderCover() {
             return `
                 <div class="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-4 animate-fade-in overflow-hidden">
-                    <div class="absolute inset-0 bg-black/40 z-0"></div>
+                    <div class="absolute inset-0 bg-black/60 z-0"></div>
                     
-                    <div class="relative mb-12 animate-float animate-radar z-10">
-                        <div class="w-24 h-24 rounded-full border border-indigo-400/30 flex items-center justify-center bg-white/5 backdrop-blur-sm shadow-2xl">
-                             <svg class="w-10 h-10 text-indigo-400 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    <div class="relative mb-10 animate-float z-10">
+                        <div class="w-20 h-20 rounded-full border border-[var(--color-accent)]/30 flex items-center justify-center bg-white/5 backdrop-blur-sm shadow-2xl">
+                             <svg class="w-8 h-8 text-[var(--color-accent)] opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                             </svg>
                         </div>
-                        <div class="absolute -inset-4 bg-indigo-500/10 rounded-full blur-2xl animate-pulse"></div>
+                        <div class="absolute -inset-4 bg-[var(--color-accent)]/10 rounded-full blur-2xl animate-pulse"></div>
                     </div>
 
-                    <div class="space-y-4 mb-12 relative z-10 w-full max-w-[90%]">
-                        <div class="inline-flex items-center gap-2 md:gap-3 px-3 md:px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-indigo-400/80 text-[9px] md:text-[10px] font-mono-tech tracking-[0.2em] md:tracking-[0.3em] uppercase">
-                            <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
-                            FRECUENCIA DE MILAGROS
+                    <div class="space-y-6 mb-12 relative z-10 w-full max-w-[95%]">
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[var(--color-accent)] text-[10px] md:text-xs font-mono-tech tracking-[0.3em] uppercase">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] animate-pulse"></span>
+                            RENOVACIÓN DEL ENTENDIMIENTO
                         </div>
-                        <h1 class="text-4xl sm:text-5xl md:text-7xl font-ethereal font-semibold text-white tracking-tight leading-tight md:leading-none uppercase">
-                            CUANDO EL CIELO<br>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-indigo-500">TRABAJA EN SILENCIO</span>
+                        <h1 class="text-5xl md:text-8xl font-ethereal font-bold text-white tracking-tighter leading-[0.9] uppercase">
+                            TENEMOS QUE<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-[var(--color-accent)]">HABLAR</span>
                         </h1>
-                        <p class="text-indigo-100/70 text-[10px] md:text-base font-mono-tech tracking-widest uppercase mb-2">
-                            DESCUBRIENDO SU PROPÓSITO (PARTE II)
-                        </p>
-                        <p class="text-white/90 text-sm md:text-xl font-light tracking-wide max-w-2xl mx-auto italic leading-relaxed">
-                            "Descubriendo Su propósito en la espera."
+                        <p class="text-white/80 text-sm md:text-xl font-serif-elegant italic tracking-wide max-w-lg mx-auto leading-relaxed px-4">
+                            "Transforma el miedo en paz mediante la renovación del entendimiento."
                         </p>
                     </div>
 
-                    <button onclick="updateState({view: 'card'})" class="group relative z-10 px-10 py-4 bg-transparent text-white font-mono-tech uppercase tracking-[0.2em] text-xs overflow-hidden transition-all duration-500">
-                        <div class="absolute inset-0 border border-indigo-400/30 group-hover:bg-indigo-400/10 transition-all"></div>
-                        <div class="absolute bottom-0 left-0 w-full h-[1px] bg-indigo-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
-                        <span class="relative">Ingresar al encuentro</span>
+                    <button onclick="updateState({view: 'card'})" class="group relative z-10 px-12 py-5 bg-white text-slate-900 font-mono-tech uppercase tracking-[0.2em] text-[10px] overflow-hidden transition-all duration-500 rounded-full shadow-xl hover:scale-105 active:scale-95">
+                        <span class="relative font-bold">Abrir Invitación</span>
                     </button>
                     
-                    <div class="absolute bottom-12 z-10 text-[10px] font-mono-tech text-indigo-200/50 uppercase tracking-[0.4em]">
-                        Radar del Cielo /// Experiencia Virtual
+                    <div class="absolute bottom-10 z-10 text-[9px] font-mono-tech text-white/30 uppercase tracking-[0.4em]">
+                        Conversaciones que Transforman
                     </div>
-
                 </div>
             `;
         }
@@ -247,87 +246,79 @@
             const t = getTimeRemaining();
 
             return `
-                <div class="w-full max-w-6xl p-3 md:p-8 animate-fade-in-up flex items-center justify-center min-h-screen">
-                    <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-0 fog-panel rounded-[2rem] md:rounded-3xl overflow-hidden relative border border-white/5 my-4">
+                <div class="w-full max-w-5xl p-4 md:p-8 animate-fade-in-up flex items-center justify-center min-h-screen">
+                    <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-0 fog-panel rounded-[2.5rem] md:rounded-3xl overflow-hidden relative border border-white/5 my-4">
                         <!-- Left: Visual -->
-                        <div class="lg:col-span-5 relative bg-slate-950 p-0 flex items-center justify-center min-h-[350px] md:min-h-[600px] overflow-hidden group">
+                        <div class="lg:col-span-5 relative bg-slate-950 p-0 flex items-center justify-center min-h-[400px] md:min-h-[600px] overflow-hidden group">
                             <!-- Background Blur Layer -->
                             <div class="absolute inset-0 transition-all duration-1000">
-                                <img src="https://i.imgur.com/eIr4py1.jpeg" class="w-full h-full object-cover blur-2xl opacity-40 scale-110" />
+                                <img src="https://i.imgur.com/mYCcCXG.jpeg" class="w-full h-full object-cover blur-2xl opacity-40 scale-110" />
                                 <div class="absolute inset-0 bg-slate-950/40"></div>
                             </div>
                             <!-- Main Image (Contain) -->
-                            <div class="relative z-10 w-full h-full flex items-center justify-center p-4">
-                                <img src="https://i.imgur.com/eIr4py1.jpeg" class="max-w-full max-h-full object-contain shadow-2xl rounded-lg" />
+                            <div class="relative z-10 w-full h-full flex items-center justify-center p-6">
+                                <img src="https://i.imgur.com/mYCcCXG.jpeg" class="max-w-full max-h-full object-contain shadow-2xl rounded-2xl transform transition-transform duration-700 group-hover:scale-[1.02]" />
                             </div>
-                                                  <div class="relative z-10 p-6 md:p-10 space-y-4 md:space-y-6">
-                                <div class="space-y-1">
-                                    <h3 class="text-indigo-400 font-mono-tech text-[9px] md:text-[10px] uppercase tracking-[0.3em]">Experiencia</h3>
-                                    <p class="text-white font-ethereal text-2xl md:text-3xl font-light tracking-tight uppercase">RADAR DEL CIELO</p>
-                                </div>
-                                
-                                <div class="p-4 md:p-6 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl">
-                                    <div class="flex justify-between items-center mb-3 md:mb-4">
-                                        <span class="text-indigo-200/50 text-[9px] md:text-[10px] font-mono-tech uppercase tracking-widest">Inicia en</span>
-                                        <div class="flex gap-1">
-                                            <div class="w-1 h-1 rounded-full bg-indigo-400 animate-pulse"></div>
-                                            <div class="w-1 h-1 rounded-full bg-indigo-400 animate-pulse" style="animation-delay: 0.2s"></div>
-                                        </div>
+                            
+                            <div class="absolute bottom-6 left-6 z-20">
+                                <div class="p-4 bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-[var(--color-accent)] text-[9px] font-mono-tech uppercase tracking-widest">Inicia en</span>
                                     </div>
-                                    <div id="countdown-display" class="text-3xl md:text-4xl font-mono-tech font-medium text-white tracking-widest tabular-nums">
+                                    <div id="countdown-display" class="text-2xl font-mono-tech font-medium text-white tracking-widest tabular-nums">
                                         --:--:--
                                     </div>
                                 </div>
                             </div>
-                        </div>  </div>
+                        </div>
 
                         <!-- Right: Details -->
-                        <div class="lg:col-span-7 p-6 md:p-14 flex flex-col bg-slate-900/40 relative">
-                            <div class="mb-8 md:mb-12">
-                                <div class="flex items-center gap-4 mb-6 md:mb-8">
-                                    <div class="h-[1px] w-8 md:w-12 bg-indigo-500/50"></div>
-                                    <span class="text-indigo-400 font-mono-tech text-[9px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.4em]">Encuentro Extraordinario</span>
+                        <div class="lg:col-span-7 p-8 md:p-14 flex flex-col bg-slate-900/40 relative">
+                            <div class="mb-10">
+                                <div class="flex items-center gap-4 mb-6">
+                                    <div class="h-[1px] w-8 bg-[var(--color-accent)]/50"></div>
+                                    <span class="text-[var(--color-accent)] font-mono-tech text-[10px] uppercase tracking-[0.4em]">Encuentro Presencial</span>
                                 </div>
-                                <h2 class="text-4xl md:text-6xl font-ethereal font-semibold text-white mb-4 leading-[1] md:leading-[0.9] tracking-tighter uppercase">
-                                    CUANDO EL CIELO<br><span class="text-indigo-500">TRABAJA EN SILENCIO</span>
+                                <h2 class="text-5xl md:text-7xl font-ethereal font-bold text-white mb-6 leading-[0.9] tracking-tighter uppercase">
+                                    TENEMOS QUE<br><span class="text-[var(--color-accent)]">HABLAR</span>
                                 </h2>
-                                <p class="text-indigo-100/60 font-mono-tech text-[10px] md:text-xs tracking-[0.15em] md:tracking-[0.2em] mb-6 md:mb-8">DESCUBRIENDO SU PROPÓSITO (PARTE II)</p>
-                                <p class="text-slate-300 text-base md:text-lg font-light leading-relaxed max-w-md italic">
-                                    "Descubriendo Su propósito en la espera."
+                                <p class="text-white/60 font-mono-tech text-[10px] md:text-xs tracking-[0.2em] uppercase mb-8">Transformando el miedo en paz</p>
+                                <p class="text-slate-300 text-lg md:text-xl font-serif-elegant italic leading-relaxed max-w-md">
+                                    "Transforma el miedo en paz mediante la renovación del entendimiento."
                                 </p>
                             </div>
 
-                            <div class="grid grid-cols-2 gap-6 md:gap-12 mb-8 md:mb-12 border-y border-white/5 py-8 md:py-10">
-                                <div class="space-y-2">
-                                    <h4 class="text-slate-500 font-mono-tech text-[9px] md:text-[10px] uppercase tracking-widest">Fecha</h4>
-                                    <p class="text-white font-ethereal text-xl md:text-2xl font-light">04 • 04 • 26</p>
-                                    <p class="text-indigo-400/60 text-[9px] md:text-xs font-mono-tech uppercase tracking-tighter">Radar del Cielo</p>
+                            <div class="grid grid-cols-2 gap-8 mb-10 border-y border-white/5 py-10">
+                                <div class="space-y-3">
+                                    <h4 class="text-slate-500 font-mono-tech text-[10px] uppercase tracking-widest font-semibold">Fecha</h4>
+                                    <p class="text-white font-ethereal text-2xl md:text-3xl font-light">19 • 04 • 26</p>
+                                    <p class="text-[var(--color-accent)] text-[10px] font-mono-tech uppercase tracking-tighter font-bold">DOMINGO</p>
                                 </div>
-                                <div class="space-y-2">
-                                    <h4 class="text-slate-500 font-mono-tech text-[9px] md:text-[10px] uppercase tracking-widest">Hora</h4>
-                                    <p class="text-white font-ethereal text-xl md:text-2xl font-light">04:00 PM</p>
-                                    <p class="text-indigo-400/60 text-[9px] md:text-xs font-mono-tech uppercase">SÁBADO</p>
+                                <div class="space-y-3">
+                                    <h4 class="text-slate-500 font-mono-tech text-[10px] uppercase tracking-widest font-semibold">Hora</h4>
+                                    <p class="text-white font-ethereal text-2xl md:text-3xl font-light">11:00 AM</p>
+                                    <p class="text-[var(--color-accent)] text-[10px] font-mono-tech uppercase font-bold">MAÑANA</p>
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-auto">
-                                <a href="${GUIDE_URL}" target="_blank" class="group relative py-4 md:py-5 bg-indigo-500 text-slate-900 font-mono-tech uppercase tracking-widest text-[9px] md:text-[10px] font-bold overflow-hidden transition-all hover:bg-indigo-400 hover:text-white flex items-center justify-center gap-2 rounded-lg md:rounded-none">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18 18.247 18.477 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-                                    Guía del Evento
-                                </a>
-                                <div class="flex gap-2">
-                                    <button onclick="updateState({modal:'rsvp'})" class="flex-1 py-4 md:py-5 border border-indigo-400/20 hover:border-indigo-400/50 text-indigo-200/70 hover:text-white font-mono-tech uppercase tracking-widest text-[9px] md:text-[10px] transition-all bg-white/5 rounded-lg md:rounded-none">
-                                        RSVP
-                                    </button>
-                                    <button onclick="handleJoin()" class="flex-1 py-4 md:py-5 border border-white/10 text-slate-500 hover:text-indigo-400 font-mono-tech uppercase tracking-widest text-[9px] md:text-[10px] transition-all bg-white/5 rounded-lg md:rounded-none">
-                                        VIVO
+                            <div class="grid grid-cols-1 gap-4 mt-auto">
+                                <button onclick="updateState({modal:'rsvp'})" class="group relative py-5 bg-[var(--color-accent)] text-white font-mono-tech uppercase tracking-widest text-xs font-bold overflow-hidden transition-all hover:bg-[var(--color-accent-dark)] flex items-center justify-center gap-3 rounded-xl shadow-lg shadow-[var(--color-accent)]/20">
+                                    Confirmar Asistencia
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                                </button>
+                                <div class="flex gap-4">
+                                    <a href="${GUIDE_URL}" target="_blank" class="flex-1 py-4 border border-white/10 text-slate-400 hover:text-white font-mono-tech uppercase tracking-widest text-[10px] transition-all bg-white/5 rounded-xl flex items-center justify-center gap-2">
+                                        Guía
+                                    </a>
+                                    <button onclick="handleJoin()" class="flex-1 py-4 border border-white/10 text-slate-400 hover:text-[var(--color-accent)] font-mono-tech uppercase tracking-widest text-[10px] transition-all bg-white/5 rounded-xl">
+                                        En Vivo
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <button onclick="updateState({view:'cover'})" class="absolute top-4 right-4 md:top-8 md:right-8 text-slate-600 hover:text-amber-400 transition-colors p-2 z-20">
+                    <button onclick="updateState({view:'cover'})" class="absolute top-6 right-6 text-slate-600 hover:text-white transition-colors p-2 z-20">
                          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>
                 </div>
@@ -340,27 +331,27 @@
             if (state.modal === 'rsvp') {
                 return `
                     <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md animate-fade-in">
-                        <div class="w-full max-w-md fog-panel p-10 rounded-3xl relative border border-amber-400/20">
+                        <div class="w-full max-w-md fog-panel p-8 md:p-10 rounded-[2.5rem] relative border border-[var(--color-accent)]/20">
                             <button onclick="updateState({modal:null})" class="absolute top-6 right-6 text-slate-500 hover:text-white p-2">
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" /></svg>
                             </button>
                             
                             <h3 class="text-3xl text-white font-ethereal font-light mb-8">Confirmar Presencia</h3>
                             
-                            <form onsubmit="handleRSVP(event)" class="space-y-8">
+                            <form onsubmit="handleRSVP(event)" class="space-y-6 md:space-y-8">
                                 <div class="space-y-2">
-                                    <label class="block text-indigo-400/50 text-[10px] font-mono-tech uppercase tracking-[0.3em]">Nombre</label>
+                                    <label class="block text-[var(--color-accent)]/50 text-[10px] font-mono-tech uppercase tracking-[0.3em]">Nombre</label>
                                     <input required type="text" value="${state.rsvpName}" oninput="state.rsvpName = this.value" 
-                                        class="w-full bg-white/5 border-b border-indigo-400/20 py-3 text-white focus:border-indigo-400 focus:outline-none transition-all placeholder:text-slate-700" placeholder="Nombre completo">
+                                        class="w-full bg-white/5 border-b border-white/10 py-3 text-white focus:border-[var(--color-accent)] focus:outline-none transition-all placeholder:text-slate-700" placeholder="Nombre completo">
                                 </div>
                                 <div class="space-y-2">
-                                    <label class="block text-indigo-400/50 text-[10px] font-mono-tech uppercase tracking-[0.3em]">Correo</label>
+                                    <label class="block text-[var(--color-accent)]/50 text-[10px] font-mono-tech uppercase tracking-[0.3em]">Correo</label>
                                     <input required type="email" value="${state.rsvpEmail}" oninput="state.rsvpEmail = this.value"
-                                        class="w-full bg-white/5 border-b border-indigo-400/20 py-3 text-white focus:border-indigo-400 focus:outline-none transition-all placeholder:text-slate-700" placeholder="correo@ejemplo.com">
+                                        class="w-full bg-white/5 border-b border-white/10 py-3 text-white focus:border-[var(--color-accent)] focus:outline-none transition-all placeholder:text-slate-700" placeholder="correo@ejemplo.com">
                                 </div>
                                 
-                                <button type="submit" ${state.sending ? 'disabled' : ''} class="w-full py-4 bg-indigo-500 text-slate-900 font-mono-tech font-bold uppercase tracking-widest text-[10px] hover:bg-indigo-400 transition-all disabled:opacity-30 rounded-lg">
-                                    ${state.sending ? 'Sintonizando...' : 'Conectar con el Evento'}
+                                <button type="submit" ${state.sending ? 'disabled' : ''} class="w-full py-5 bg-[var(--color-accent)] text-white font-mono-tech font-bold uppercase tracking-widest text-[10px] hover:bg-[var(--color-accent-dark)] transition-all disabled:opacity-30 rounded-xl shadow-lg shadow-[var(--color-accent)]/20">
+                                    ${state.sending ? 'Enviando...' : 'Confirmar Asistencia'}
                                 </button>
                             </form>
                         </div>
