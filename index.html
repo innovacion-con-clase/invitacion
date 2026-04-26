@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
 
 <head>
@@ -12,8 +12,9 @@
     <style>
         :root {
             font-family: 'Inter', sans-serif;
-            --color-accent: #4d908e; /* teal-ish */
-            --color-accent-dark: #275950;
+            --color-accent: #059669; /* emerald */
+            --color-accent-dark: #064e3b;
+            --color-purple: #581c87;
             --color-deep: #0f172a;
             --color-paper: #f8f5f2;
         }
@@ -97,7 +98,7 @@
         /* Background Pattern */
         .bg-ethereal-pattern {
             background-color: #020617;
-            background-image: url('https://i.imgur.com/mYCcCXG.jpeg');
+            background-image: linear-gradient(to bottom, rgba(88, 28, 135, 0.4), rgba(2, 6, 23, 0.9)), url('https://i.imgur.com/9oYJzms.jpeg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -113,9 +114,9 @@
     <script>
         // Configuración
         const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyonuNONVfbmiwAUI0_koTsWABOSJ7iIFZp1dnLYDSKEPlmOJeA09h3BDlF0WhW7paN/exec";
-        const GUIDE_URL = "https://innovacion-con-clase.github.io/tenemos-que-hablar/";
+        const GUIDE_URL = "https://innovacion-con-clase.github.io/que-se-te-note/";
         const MEET_URL = "https://meet.google.com/jbz-swdo-rpz";
-        const EVENT_DATE = new Date("2026-04-19T11:00:00-05:00");
+        const EVENT_DATE = new Date("2026-04-26T11:00:00-05:00");
 
         let state = {
             view: 'cover',
@@ -211,7 +212,7 @@
                     <div class="relative mb-10 animate-float z-10">
                         <div class="w-20 h-20 rounded-full border border-[var(--color-accent)]/30 flex items-center justify-center bg-white/5 backdrop-blur-sm shadow-2xl">
                              <svg class="w-8 h-8 text-[var(--color-accent)] opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l.707.707M6.343 6.343l.707-.707" />
                             </svg>
                         </div>
                         <div class="absolute -inset-4 bg-[var(--color-accent)]/10 rounded-full blur-2xl animate-pulse"></div>
@@ -220,14 +221,14 @@
                     <div class="space-y-6 mb-12 relative z-10 w-full max-w-[95%]">
                         <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[var(--color-accent)] text-[10px] md:text-xs font-mono-tech tracking-[0.3em] uppercase">
                             <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] animate-pulse"></span>
-                            RENOVACIÓN DEL ENTENDIMIENTO
+                            EL FRUTO DE TU CARÁCTER
                         </div>
                         <h1 class="text-5xl md:text-8xl font-ethereal font-bold text-white tracking-tighter leading-[0.9] uppercase">
-                            TENEMOS QUE<br>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-[var(--color-accent)]">HABLAR</span>
+                            QUE SE TE<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-[var(--color-accent)]">NOTE</span>
                         </h1>
                         <p class="text-white/80 text-sm md:text-xl font-serif-elegant italic tracking-wide max-w-lg mx-auto leading-relaxed px-4">
-                            "Transforma el miedo en paz mediante la renovación del entendimiento."
+                            "¡Que tus frutos sean tu mejor mensaje!"
                         </p>
                     </div>
 
@@ -252,12 +253,12 @@
                         <div class="lg:col-span-5 relative bg-slate-950 p-0 flex items-center justify-center min-h-[400px] md:min-h-[600px] overflow-hidden group">
                             <!-- Background Blur Layer -->
                             <div class="absolute inset-0 transition-all duration-1000">
-                                <img src="https://i.imgur.com/mYCcCXG.jpeg" class="w-full h-full object-cover blur-2xl opacity-40 scale-110" />
+                                <img src="https://i.imgur.com/9oYJzms.jpeg" class="w-full h-full object-cover blur-2xl opacity-40 scale-110" />
                                 <div class="absolute inset-0 bg-slate-950/40"></div>
                             </div>
                             <!-- Main Image (Contain) -->
                             <div class="relative z-10 w-full h-full flex items-center justify-center p-6">
-                                <img src="https://i.imgur.com/mYCcCXG.jpeg" class="max-w-full max-h-full object-contain shadow-2xl rounded-2xl transform transition-transform duration-700 group-hover:scale-[1.02]" />
+                                <img src="https://i.imgur.com/9oYJzms.jpeg" class="max-w-full max-h-full object-contain shadow-2xl rounded-2xl transform transition-transform duration-700 group-hover:scale-[1.02]" />
                             </div>
                             
                             <div class="absolute bottom-6 left-6 z-20">
@@ -280,18 +281,18 @@
                                     <span class="text-[var(--color-accent)] font-mono-tech text-[10px] uppercase tracking-[0.4em]">Encuentro Presencial</span>
                                 </div>
                                 <h2 class="text-5xl md:text-7xl font-ethereal font-bold text-white mb-6 leading-[0.9] tracking-tighter uppercase">
-                                    TENEMOS QUE<br><span class="text-[var(--color-accent)]">HABLAR</span>
+                                    QUE SE TE<br><span class="text-[var(--color-accent)]">NOTE</span>
                                 </h2>
-                                <p class="text-white/60 font-mono-tech text-[10px] md:text-xs tracking-[0.2em] uppercase mb-8">Transformando el miedo en paz</p>
+                                <p class="text-white/60 font-mono-tech text-[10px] md:text-xs tracking-[0.2em] uppercase mb-8">Tus frutos hablan por ti</p>
                                 <p class="text-slate-300 text-lg md:text-xl font-serif-elegant italic leading-relaxed max-w-md">
-                                    "Transforma el miedo en paz mediante la renovación del entendimiento."
+                                    "Si hoy tus frutos hablaran... ¿qué dirían de ti?"
                                 </p>
                             </div>
 
                             <div class="grid grid-cols-2 gap-8 mb-10 border-y border-white/5 py-10">
                                 <div class="space-y-3">
                                     <h4 class="text-slate-500 font-mono-tech text-[10px] uppercase tracking-widest font-semibold">Fecha</h4>
-                                    <p class="text-white font-ethereal text-2xl md:text-3xl font-light">19 • 04 • 26</p>
+                                    <p class="text-white font-ethereal text-2xl md:text-3xl font-light">26 • 04 • 26</p>
                                     <p class="text-[var(--color-accent)] text-[10px] font-mono-tech uppercase tracking-tighter font-bold">DOMINGO</p>
                                 </div>
                                 <div class="space-y-3">
