@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desarma tu Corazón - Invitación</title>
+    <title>Mamá: Entre Altares y Algoritmos</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap"
@@ -12,11 +12,11 @@
     <style>
         :root {
             font-family: 'Inter', sans-serif;
-            --color-accent: #f43f5e; /* Rose 500 */
-            --color-accent-dark: #9f1239;
-            --color-purple: #701a75;
+            --color-accent: #e11d48; /* Rose 600 - Heart Red */
+            --color-accent-dark: #be123c;
+            --color-gold: #fbbf24; /* Amber 400 - Altar Light */
             --color-deep: #0f172a;
-            --color-paper: #f8f5f2;
+            --color-cyan: #22d3ee; /* Cyan 400 - Algorithm/Tech */
         }
 
         .font-serif-elegant {
@@ -95,25 +95,30 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        /* Background Pattern */
+        /* Sacred/Digital Background Pattern */
         .bg-ethereal-pattern {
             background-color: #020617;
-            background-image: linear-gradient(to bottom, rgba(112, 26, 117, 0.4), rgba(2, 6, 23, 0.9)), url('https://i.imgur.com/8InnGDy.jpeg');
+            background-image: radial-gradient(circle at center, rgba(225, 29, 72, 0.2) 0%, rgba(15, 23, 42, 1) 100%), url('https://i.imgur.com/yZk6Qye.jpeg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
 
-        /* Puzzle Piece Elements */
-        .puzzle-piece {
+        /* Altar Glow & Rays */
+        .altar-glow {
+            box-shadow: 0 0 100px 20px rgba(251, 191, 36, 0.15);
+        }
+
+        .algorithm-grid {
+            background-image: radial-gradient(var(--color-cyan) 0.5px, transparent 0.5px);
+            background-size: 30px 30px;
+            opacity: 0.1;
+        }
+
+        .light-ray {
             position: absolute;
-            width: 100px;
-            height: 100px;
-            background: rgba(255, 255, 255, 0.03);
-            mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M75,25 C75,11.1928811 63.8071189,0 50,0 C36.1928811,0 25,11.1928811 25,25 L0,25 L0,50 C13.8071189,50 25,61.1928811 25,75 C25,88.8071189 13.8071189,100 0,100 L25,100 L25,75 C25,61.1928811 36.1928811,50 50,50 C63.8071189,50 75,61.1928811 75,75 L75,100 L100,100 L100,75 C86.1928811,75 75,63.8071189 75,50 L75,25 Z" fill="white"/></svg>');
-            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M75,25 C75,11.1928811 63.8071189,0 50,0 C36.1928811,0 25,11.1928811 25,25 L0,25 L0,50 C13.8071189,50 25,61.1928811 25,75 C25,88.8071189 13.8071189,100 0,100 L25,100 L25,75 C25,61.1928811 36.1928811,50 50,50 C63.8071189,50 75,61.1928811 75,75 L75,100 L100,100 L100,75 C86.1928811,75 75,63.8071189 75,50 L75,25 Z" fill="white"/></svg>');
-            backdrop-filter: blur(5px);
-            z-index: 1;
+            background: linear-gradient(to bottom, rgba(251, 191, 36, 0.2), transparent);
+            width: 2px;
             pointer-events: none;
         }
 
@@ -127,9 +132,9 @@
     <script>
         // Configuración
         const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyonuNONVfbmiwAUI0_koTsWABOSJ7iIFZp1dnLYDSKEPlmOJeA09h3BDlF0WhW7paN/exec";
-        const GUIDE_URL = "https://innovacion-con-clase.github.io/desarma-tu-corazon/";
+        const GUIDE_URL = "https://innovacion-con-clase.github.io/casa-de-juanita/";
         const MEET_URL = "https://meet.google.com/jbz-swdo-rpz";
-        const EVENT_DATE = new Date("2026-05-03T11:00:00-05:00");
+        const EVENT_DATE = new Date("2026-05-10T11:00:00-05:00");
 
         let state = {
             view: 'cover',
@@ -221,32 +226,30 @@
             return `
                 <div class="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-4 animate-fade-in overflow-hidden">
                     <div class="absolute inset-0 bg-black/70 z-0"></div>
+                    <div class="absolute inset-0 algorithm-grid z-0"></div>
                     
-                    <!-- Puzzle Decor -->
-                    <div class="puzzle-piece top-10 left-10 animate-float" style="transform: rotate(15deg)"></div>
-                    <div class="puzzle-piece bottom-20 right-10 animate-float" style="animation-delay: 2s; transform: rotate(-10deg)"></div>
+                    <!-- Celestial Decoration -->
+                    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-[var(--color-gold)]/10 rounded-full blur-[100px] animate-sun"></div>
+                    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[var(--color-accent)]/10 rounded-full blur-[100px] animate-sun" style="animation-delay: -5s"></div>
 
                     <div class="relative mb-10 animate-float z-10">
-                        <div class="w-24 h-24 rounded-full border border-[var(--color-accent)]/30 flex items-center justify-center bg-white/5 backdrop-blur-sm shadow-2xl">
-                             <svg class="w-12 h-12 text-[var(--color-accent)] opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3" />
-                            </svg>
+                        <div class="w-32 h-32 rounded-full border border-[var(--color-accent)]/30 flex items-center justify-center bg-white/5 backdrop-blur-sm shadow-2xl altar-glow">
+                             <img src="https://i.imgur.com/yZk6Qye.jpeg" class="w-24 h-24 object-contain rounded-full" />
                         </div>
-                        <div class="absolute -inset-4 bg-[var(--color-accent)]/10 rounded-full blur-2xl animate-pulse"></div>
+                        <div class="absolute -inset-6 bg-[var(--color-accent)]/20 rounded-full blur-3xl animate-pulse"></div>
                     </div>
 
                     <div class="space-y-6 mb-12 relative z-10 w-full max-w-[95%]">
-                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[var(--color-accent)] text-[10px] md:text-xs font-mono-tech tracking-[0.3em] uppercase">
-                            <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] animate-pulse"></span>
-                            UNA PIEZA A LA VEZ
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[var(--color-gold)] text-[10px] md:text-xs font-mono-tech tracking-[0.3em] uppercase">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-gold)] animate-pulse"></span>
+                            CELEBRANDO EL DÍA DE LAS MADRES
                         </div>
-                        <h1 class="text-5xl md:text-8xl font-ethereal font-bold text-white tracking-tighter leading-[0.9] uppercase">
-                            DESARMA TU<br>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-[var(--color-accent)]">CORAZÓN</span>
+                        <h1 class="text-4xl md:text-7xl font-ethereal font-bold text-white tracking-tighter leading-[0.9] uppercase">
+                            ENTRE ALTARES Y<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-[var(--color-accent)]">ALGORITMOS</span>
                         </h1>
-                        <p class="text-white/80 text-sm md:text-xl font-serif-elegant italic tracking-wide max-w-lg mx-auto leading-relaxed px-4">
-                            "Renúevalo con el espíritu"
+                        <p class="text-white/80 text-sm md:text-xl font-serif-elegant italic tracking-wide max-w-2xl mx-auto leading-relaxed px-4">
+                            "Cuando una generación forma el corazón… y otra deja que el mundo lo haga"
                         </p>
                     </div>
 
@@ -255,7 +258,7 @@
                     </button>
                     
                     <div class="absolute bottom-10 z-10 text-[9px] font-mono-tech text-white/30 uppercase tracking-[0.4em]">
-                        Restauración • Renovación • Vida
+                        TRADICIÓN • INNOVACIÓN • AMOR
                     </div>
                 </div>
             `;
@@ -266,27 +269,26 @@
 
             return `
                 <div class="w-full max-w-5xl p-4 md:p-8 animate-fade-in-up flex items-center justify-center min-h-screen">
-                    <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-0 fog-panel rounded-[2.5rem] md:rounded-3xl overflow-hidden relative border border-white/5 my-4">
+                    <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-0 fog-panel rounded-[2.5rem] md:rounded-3xl overflow-hidden relative border border-white/5 my-4 shadow-2xl">
                         <!-- Left: Visual -->
                         <div class="lg:col-span-5 relative bg-slate-950 p-0 flex items-center justify-center min-h-[400px] md:min-h-[600px] overflow-hidden group">
                             <!-- Background Blur Layer -->
                             <div class="absolute inset-0 transition-all duration-1000">
-                                <img src="https://i.imgur.com/8InnGDy.jpeg" class="w-full h-full object-cover blur-2xl opacity-40 scale-110" />
+                                <img src="https://i.imgur.com/yZk6Qye.jpeg" class="w-full h-full object-cover blur-2xl opacity-40 scale-110" />
                                 <div class="absolute inset-0 bg-slate-950/40"></div>
                             </div>
                             <!-- Main Image (Contain) -->
                             <div class="relative z-10 w-full h-full flex items-center justify-center p-6">
-                                <img src="https://i.imgur.com/8InnGDy.jpeg" class="max-w-full max-h-full object-contain shadow-2xl rounded-2xl transform transition-transform duration-700 group-hover:scale-[1.02]" />
+                                <img src="https://i.imgur.com/yZk6Qye.jpeg" class="max-w-full max-h-full object-contain shadow-2xl rounded-2xl transform transition-transform duration-700 group-hover:scale-[1.02]" />
                             </div>
                             
-                            <!-- Puzzle Pieces Overlays -->
-                            <div class="puzzle-piece top-4 left-4 opacity-30 scale-75" style="transform: rotate(-15deg)"></div>
-                            <div class="puzzle-piece bottom-20 right-4 opacity-20 scale-50" style="transform: rotate(20deg)"></div>
+                            <!-- Algorithm Grid Overlay -->
+                            <div class="absolute inset-0 algorithm-grid opacity-20"></div>
 
                             <div class="absolute bottom-6 left-6 z-20">
                                 <div class="p-4 bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl">
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-[var(--color-accent)] text-[9px] font-mono-tech uppercase tracking-widest">Inicia en</span>
+                                        <span class="text-[var(--color-gold)] text-[9px] font-mono-tech uppercase tracking-widest">Siguiente encuentro</span>
                                     </div>
                                     <div id="countdown-display" class="text-2xl font-mono-tech font-medium text-white tracking-widest tabular-nums">
                                         --:--:--
@@ -300,21 +302,21 @@
                             <div class="mb-10">
                                 <div class="flex items-center gap-4 mb-6">
                                     <div class="h-[1px] w-8 bg-[var(--color-accent)]/50"></div>
-                                    <span class="text-[var(--color-accent)] font-mono-tech text-[10px] uppercase tracking-[0.4em]">Encuentro Presencial</span>
+                                    <span class="text-[var(--color-gold)] font-mono-tech text-[10px] uppercase tracking-[0.4em]">Especial de Madres</span>
                                 </div>
-                                <h2 class="text-5xl md:text-7xl font-ethereal font-bold text-white mb-6 leading-[0.9] tracking-tighter uppercase">
-                                    DESARMA TU<br><span class="text-[var(--color-accent)]">CORAZÓN</span>
+                                <h2 class="text-4xl md:text-6xl font-ethereal font-bold text-white mb-6 leading-[0.9] tracking-tighter uppercase">
+                                    ENTRE ALTARES Y<br><span class="text-[var(--color-accent)]">ALGORITMOS</span>
                                 </h2>
-                                <p class="text-white/60 font-mono-tech text-[10px] md:text-xs tracking-[0.2em] uppercase mb-8">Renúevalo con el Espíritu</p>
+                                <p class="text-white/60 font-mono-tech text-[10px] md:text-xs tracking-[0.2em] uppercase mb-8">La Casa de Juanita</p>
                                 <p class="text-slate-300 text-lg md:text-xl font-serif-elegant italic leading-relaxed max-w-md">
-                                    "A veces para renovar algo, primero debemos desarmarlo."
+                                    "Cuando una generación forma el corazón… y otra deja que el mundo lo haga."
                                 </p>
                             </div>
 
                             <div class="grid grid-cols-2 gap-8 mb-10 border-y border-white/5 py-10">
                                 <div class="space-y-3">
                                     <h4 class="text-slate-500 font-mono-tech text-[10px] uppercase tracking-widest font-semibold">Fecha</h4>
-                                    <p class="text-white font-ethereal text-2xl md:text-3xl font-light">03 • 05 • 26</p>
+                                    <p class="text-white font-ethereal text-2xl md:text-3xl font-light">10 • 05 • 26</p>
                                     <p class="text-[var(--color-accent)] text-[10px] font-mono-tech uppercase tracking-tighter font-bold">DOMINGO</p>
                                 </div>
                                 <div class="space-y-3">
@@ -331,13 +333,13 @@
                                 </button>
                                 <div class="flex gap-4">
                                     <a href="${GUIDE_URL}" target="_blank" class="flex-1 py-4 border border-[var(--color-accent)]/30 text-white hover:bg-[var(--color-accent)]/10 font-mono-tech uppercase tracking-widest text-[10px] transition-all bg-white/5 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-black/20 group/btn">
-                                        <svg class="w-4 h-4 text-[var(--color-accent)] group-hover/btn:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                                        <svg class="w-4 h-4 text-[var(--color-gold)] group-hover/btn:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
                                         Guía
                                     </a>
                                     <button onclick="handleJoin()" class="flex-1 py-4 border border-[var(--color-accent)]/30 text-white hover:bg-[var(--color-accent)]/10 font-mono-tech uppercase tracking-widest text-[10px] transition-all bg-white/5 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-black/20 group/btn">
                                         <span class="relative flex h-2 w-2">
-                                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-accent)] opacity-75"></span>
-                                          <span class="relative inline-flex rounded-full h-2 w-2 bg-[var(--color-accent)]"></span>
+                                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-cyan)] opacity-75"></span>
+                                          <span class="relative inline-flex rounded-full h-2 w-2 bg-[var(--color-cyan)]"></span>
                                         </span>
                                         En Vivo
                                     </button>
