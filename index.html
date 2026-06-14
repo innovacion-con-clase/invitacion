@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El diablo viste a la moda - La Casa de Juanita</title>
+    <title>Manual de Naufragios - La Casa de Juanita</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap"
@@ -98,7 +98,7 @@
         /* Sacred/Digital Background Pattern */
         .bg-ethereal-pattern {
             background-color: #020617;
-            background-image: radial-gradient(circle at center, rgba(198, 139, 109, 0.2) 0%, rgba(15, 23, 42, 1) 100%), url('https://i.imgur.com/OZDG12q.png');
+            background-image: radial-gradient(circle at center, rgba(198, 139, 109, 0.2) 0%, rgba(15, 23, 42, 1) 100%), url('./faro_capitan_cover.png');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -134,7 +134,7 @@
         const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyonuNONVfbmiwAUI0_koTsWABOSJ7iIFZp1dnLYDSKEPlmOJeA09h3BDlF0WhW7paN/exec";
         const GUIDE_URL = "https://innovacion-con-clase.github.io/casa-de-juanita/";
         const MEET_URL = "https://meet.google.com/jbz-swdo-rpz";
-        const EVENT_DATE = new Date("2026-06-07T11:00:00-05:00");
+        const EVENT_DATE = new Date("2026-06-14T11:00:00-05:00");
 
         let state = {
             view: 'cover',
@@ -195,7 +195,7 @@
                 formData.append('name', state.rsvpName);
                 formData.append('email', state.rsvpEmail);
                 formData.append('timestamp', new Date().toISOString());
-                formData.append('source', 'ElDiabloVisteALaModaWeb');
+                formData.append('source', 'ManualDeNaufragiosWeb');
 
                 await fetch(SHEET_ENDPOINT, {
                     method: 'POST',
@@ -234,7 +234,7 @@
 
                     <div class="relative mb-10 animate-float z-10">
                         <div class="w-32 h-32 rounded-full border border-[var(--color-accent)]/30 flex items-center justify-center bg-white/5 backdrop-blur-sm shadow-2xl altar-glow">
-                             <img src="https://i.imgur.com/OZDG12q.png" class="w-24 h-24 object-contain rounded-full" />
+                             <img src="./faro_capitan_cover.png" class="w-24 h-24 object-contain rounded-full" />
                         </div>
                         <div class="absolute -inset-6 bg-[var(--color-accent)]/20 rounded-full blur-3xl animate-pulse"></div>
                     </div>
@@ -245,11 +245,11 @@
                             NUEVO DEVOCIONAL SEMANAL
                         </div>
                         <h1 class="text-4xl md:text-7xl font-ethereal font-bold text-white tracking-tighter leading-[0.9] uppercase">
-                            EL DIABLO VISTE<br>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-[var(--color-accent)]">A LA MODA</span>
+                            MANUAL DE<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-[var(--color-accent)]">NAUFRAGIOS</span>
                         </h1>
                         <p class="text-white/80 text-sm md:text-xl font-serif-elegant italic tracking-wide max-w-2xl mx-auto leading-relaxed px-4">
-                            "Desmascarando las apariencias y vistiendo la identidad real"
+                            "Cuando el Capitán Vuelve al Faro: El diseño original del Padre"
                         </p>
                     </div>
 
@@ -274,12 +274,12 @@
                         <div class="lg:col-span-5 relative bg-slate-950 p-0 flex items-center justify-center min-h-[400px] md:min-h-[600px] overflow-hidden group">
                             <!-- Background Blur Layer -->
                             <div class="absolute inset-0 transition-all duration-1000">
-                                <img src="https://i.imgur.com/OZDG12q.png" class="w-full h-full object-cover blur-2xl opacity-40 scale-110" />
+                                <img src="./faro_capitan_cover.png" class="w-full h-full object-cover blur-2xl opacity-40 scale-110" />
                                 <div class="absolute inset-0 bg-slate-950/40"></div>
                             </div>
                             <!-- Main Image (Contain) -->
                             <div class="relative z-10 w-full h-full flex items-center justify-center p-6">
-                                <img src="https://i.imgur.com/OZDG12q.png" class="max-w-full max-h-full object-contain shadow-2xl rounded-2xl transform transition-transform duration-700 group-hover:scale-[1.02]" />
+                                <img src="./faro_capitan_cover.png" class="max-w-full max-h-full object-contain shadow-2xl rounded-2xl transform transition-transform duration-700 group-hover:scale-[1.02]" />
                             </div>
                             
                             <!-- Algorithm Grid Overlay -->
@@ -305,18 +305,18 @@
                                     <span class="text-[var(--color-gold)] font-mono-tech text-[10px] uppercase tracking-[0.4em]">Lanzamiento Semanal</span>
                                 </div>
                                 <h2 class="text-4xl md:text-6xl font-ethereal font-bold text-white mb-6 leading-[0.9] tracking-tighter uppercase">
-                                    EL DIABLO VISTE<br><span class="text-[var(--color-accent)]">A LA MODA</span>
+                                    MANUAL DE<br><span class="text-[var(--color-accent)]">NAUFRAGIOS</span>
                                 </h2>
                                 <p class="text-white/60 font-mono-tech text-[10px] md:text-xs tracking-[0.2em] uppercase mb-8">La Casa de Juanita</p>
                                 <p class="text-slate-300 text-lg md:text-xl font-serif-elegant italic leading-relaxed max-w-md">
-                                    "Desmascarando las apariencias y vistiendo la identidad real"
+                                    "Cuando el Capitán Vuelve al Faro: El diseño original del Padre"
                                 </p>
                             </div>
 
                             <div class="grid grid-cols-2 gap-8 mb-10 border-y border-white/5 py-10">
                                 <div class="space-y-3">
                                     <h4 class="text-slate-500 font-mono-tech text-[10px] uppercase tracking-widest font-semibold">Fecha</h4>
-                                    <p class="text-white font-ethereal text-2xl md:text-3xl font-light">07 • 06 • 26</p>
+                                    <p class="text-white font-ethereal text-2xl md:text-3xl font-light">14 • 06 • 26</p>
                                     <p class="text-[var(--color-accent)] text-[10px] font-mono-tech uppercase tracking-tighter font-bold">DOMINGO</p>
                                 </div>
                                 <div class="space-y-3">
